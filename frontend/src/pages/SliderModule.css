@@ -1,0 +1,29 @@
+.slider{
+    width: 100%;
+   
+    display: flex;
+    justify-content: center;
+    height: 45vh;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .37);
+    
+    
+}
+
+.slider img{
+    width: 70%;
+    
+   
+    
+}
+
+@media screen and (max-width: 850px){
+
+    .slider{
+        
+        height: 15vh;
+        
+        
+        
+    }
+
+}
