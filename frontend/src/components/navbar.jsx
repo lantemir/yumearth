@@ -15,7 +15,7 @@ class Navbar1 extends Component {
       <div className="NavbarBackground">
       <nav className="NavbarItems">
         <h1 className="logo">
-          React <i className="fab fa-react"></i>
+        YUMEARTH 
         </h1>
         <div className="menu-icons" onClick={this.handleClick}>
             <i className={this.state.clicked ? "fas fa-times" : "fas fa-bars"}></i>

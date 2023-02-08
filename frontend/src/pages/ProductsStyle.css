@@ -1,0 +1,46 @@
+.productWrapper{
+    width: 80%;
+    margin: auto;
+    height: auto;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.productBox{
+    width: 30%;
+    height: auto;
+    border: 1px solid rgb(213, 213, 213);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .37);
+    border-radius: 10px;
+    margin: 1%;
+    padding: 10px;
+}
+
+.productBox img{
+    width: 100%;
+    
+}
+.productBox p {
+    
+    text-align: center;
+    margin: 10px 0;
+    
+}
+
+
+@media screen and (max-width: 850px){
+
+    .productWrapper{
+        width: 95%;
+        
+    }
+
+    .productBox{
+        width: 47%;
+       
+    }
+
+}

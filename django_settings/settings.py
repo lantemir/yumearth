@@ -165,12 +165,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
  # раскоментить при сборке на прод и делаем:  python manage.py collectstatic --noinput
-#STATIC_ROOT = Path(BASE_DIR / 'static')  
+STATIC_ROOT = Path(BASE_DIR / 'static')  
     # для heroky не забыть файл Procfile -> django_settings обратить внимание. Потом pip install gunicorn. Потом runtime.txt добавить файл. 
 
 STATICFILES_DIRS = [
     Path(BASE_DIR / 'static_external'),
-    Path(BASE_DIR / 'static'), #закоментить при колект статике и проме
+    #Path(BASE_DIR / 'static'), #закоментить при колект статике и проме
     Path(BASE_DIR / 'frontend/build/static'),
     Path(BASE_DIR / 'frontend/public/static'),
 ]

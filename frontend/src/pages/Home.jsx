@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as bases from '../components/bases';
 import "./HomeStyle.css";
 import Slider from './Slider';
+import Products from './Products';
 
 export const GET_ALL_MESSAGE_LOAD = "GET_ALL_MESSAGE_LOAD";
 export const GET_ALL_MESSAGE_DATA = "GET_ALL_MESSAGE_DATA ";
@@ -58,6 +59,7 @@ export function Home() {
   return (
     <bases.Base1>
         <Slider/>
+        <Products/>
         <div className='home'> <h1>Home</h1>
         <button onClick={GetAllSms} className='btn btn-lg btn-outline-danger'>Ok</button>
 
