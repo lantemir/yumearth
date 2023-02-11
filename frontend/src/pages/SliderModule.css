@@ -1,12 +1,20 @@
 .slider{
     width: 100%;
    
-    display: flex;
-    justify-content: center;
-    height: 45vh;
+    display: wrap;
+    /* justify-content: center; */
+    height: auto;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .37);
+    text-align: center;
+    padding-bottom: 20px;
     
     
+}
+
+.slider h1{
+    width: 100%;
+    
+    color: #00B1BE;
 }
 
 .slider img{
@@ -20,10 +28,13 @@
 
     .slider{
         
-        height: 15vh;
+        height: auto;
         
         
         
+    }
+    .slider h1{
+        font-size: 1.2em;
     }
 
 }

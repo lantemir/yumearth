@@ -1,0 +1,20 @@
+.about{
+    width: 100%;
+    
+}
+
+.about p{
+    
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.about h1{
+    /* border: 1px solid red; */
+    text-align: center;
+    padding: 20px 0 ;
+    /* width: 80%;
+    margin: auto;
+    padding: 20px; */
+}

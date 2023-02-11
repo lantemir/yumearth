@@ -4,3 +4,35 @@
     /* background: rgb(7,154,164);
     background: linear-gradient(90deg, rgba(7,154,164,1) 0%, rgba(109,208,215,1) 100%);
 } */
+
+.home{
+    width: 100%;
+    padding-bottom: 50px;
+}
+.home img{
+    padding-top: 15px;
+    width: 100%;
+}
+
+.home p{
+    
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.home h2{
+    /* border: 1px solid red; */
+    text-align: center;
+    padding: 20px 0 ;
+    /* width: 80%;
+    margin: auto;
+    padding: 20px; */
+}
+
+@media screen and (max-width: 850px){
+
+    .home p{   
+        width: 95%;       
+    }
+}

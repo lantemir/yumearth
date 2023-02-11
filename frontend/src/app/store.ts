@@ -2,10 +2,13 @@ import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@redu
 import { combineReducers } from 'redux';
 import thunk from "redux-thunk";
 
-import { GetAllMessageReducer } from '../pages/Home';
+// import { GetAllMessageReducer } from '../pages/Home';
+import { GetAllMessageReducer } from '../redux/message-reducer';
+import { GetProductsReducer } from '../redux/products-reducer';
 
 const globalReducer = combineReducers({
   GetSmsStore: GetAllMessageReducer,
+  GetProductsStore: GetProductsReducer
 })
 
 const initialState  = {

@@ -8,4 +8,6 @@ urlpatterns = [
     re_path(route=r'^users/$', view=views.users, name="users"),
     re_path(route=r'^chat/(?P<sms_id>\d+)/$', view=views.chat, name="chat_id"),
     re_path(route=r'^chat/$', view=views.chat, name="chat"),
+
+    re_path(route=r'^product/$', view=views.product, name="chat"),
 ]

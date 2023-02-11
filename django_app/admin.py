@@ -7,6 +7,20 @@ admin.site.site_header = 'Панель 1'
 admin.site.index_title = 'Панель 2'
 admin.site.site_title = 'Панель 3'
 
+
+
+class ProductAdmin(admin.ModelAdmin):
+    """Product"""
+    list_display = (
+        'title',
+        'image',
+        'price',
+        'description',
+        
+    )
+    filter_horizontal = ('productCategory',) # только для полей флрмата many to many fields
+
+
 class TextModelAdmin(admin.ModelAdmin):
     """Text Model"""
 
@@ -54,3 +68,5 @@ class TextModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.TextModel, TextModelAdmin)
+admin.site.register(models.ProductCategory)
+admin.site.register(models.Product, ProductAdmin)

@@ -1,32 +1,34 @@
 export const Menudata = [
     {
-        title: "Home",
-        url:"#",
+        title: "Главная",
+        url:"/",
         cName: "nav-links",
         icon: "fa-solid fa-house-user"
     },
     {
-        title: "About",
+        title: "Сладости",
         url:"#",
+        cName: "nav-links",
+        icon: "fa-solid fa-candy-cane"
+    },
+    {
+        title: "О нас",
+        url:"/about",
         cName: "nav-links",
         icon: "fa-solid fa-circle-info"
     },
+   
     {
-        title: "Service",
-        url:"#",
-        cName: "nav-links",
-        icon: "fa-solid fa-briefcase"
-    },
-    {
-        title: "Contact",
+        title: "Контакты",
         url:"#",
         cName: "nav-links",
         icon: "fa-solid fa-address-book"
     },
     {
-        title: "Sign Up",
+        title: " Личный кабинет",
         url:"#",
         cName: "nav-links-mobile",
+        icon: "fa-regular fa-user"
         
     },
     
