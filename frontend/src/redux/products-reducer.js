@@ -10,6 +10,8 @@ export const GET_TOTALCOUNT_PRODUCTS = "GET_TOTALCOUNT_PRODUCTS";
 export const GET_CURRENTPAGE_PRODUCTS = "GET_CURRENTPAGE_PRODUCTS";
 export const GET_CATEGORY_PRODUCTS = "GET_CATEGORY_PRODUCTS";
 
+export const GET_CATEGORYES_PRODUCTS = "GET_CATEGORYES_PRODUCTS";
+
 let initialState = {
   products: [],
   pageSize: 3,
@@ -17,6 +19,7 @@ let initialState = {
   currentPage: 1,
   categoryid: 0,
   load: false,
+  categories: [],
 };
 
 
@@ -33,8 +36,12 @@ export function GetProductsReducer(state = initialState, action = null) {
       return { ...state, load: false, totalCount: action.payload}
     case GET_CURRENTPAGE_PRODUCTS:
         return { ...state, load: false, currentPage: action.payload}
+
     case GET_CATEGORY_PRODUCTS:
-        return {...state, load: false, categoryid: action.payload}
+        return { ...state, load: false, categoryid: action.payload}
+
+    case GET_CATEGORYES_PRODUCTS:
+        return {...state, load: false, categories: action.payload}
     case GET_ALL_PRODUCTS_ERROR:
       return { error: 'Ошибка на сервере' }
     case GET_ALL_PRODUCTS_FAIL:
@@ -47,9 +54,29 @@ export function GetProductsReducer(state = initialState, action = null) {
   }
 }
 
+export const getProductCategory = async(dispatch) => {
 
-export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryid ) => {
-    dispatch({type: GET_ALL_PRODUCTS_LOAD})
+  const response = await axios.get('/api/productcategory');
+
+  // console.log(response.data.category)
+
+  dispatch({type:GET_CATEGORYES_PRODUCTS, payload: response.data.category })
+
+}
+
+export const requestCurrentCategory = (dispatch, categoryid) => {
+  console.log(categoryid)
+  dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
+  
+}
+
+
+
+export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryid) => {
+
+  console.log("categoryid = ")
+  console.log(categoryid)
+    //  dispatch({type: GET_ALL_PRODUCTS_LOAD})
 
     // const config = {
     //   method: "GET",
@@ -57,18 +84,23 @@ export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryi
     //   url: ('/api/products',{currentPage: 1, pageSize: 3, categoryid: 1})
     // }
 
-    const response = await axios.get('/api/product', {
+    const response = await axios.get('/api/product/', {
         params:{currentPage: currentPage, pageSize: pageSize, categoryid: categoryid}
     })
+
+    const responsecat = await axios.get('/api/productcategory');
+    dispatch({type:GET_CATEGORYES_PRODUCTS, payload: responsecat.data.category })
 
     dispatch({type: GET_PAGESIZE_PRODUCTS, payload: pageSize})
     dispatch({type: GET_TOTALCOUNT_PRODUCTS, payload: response.data.x_total_count})
     dispatch({type: GET_CURRENTPAGE_PRODUCTS, payload: currentPage})
-    dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
+    
 
     
     console.log(response.data )
     dispatch({type: GET_ALL_PRODUCTS_DATA, payload: response.data.List})  
+
+    // dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
 
   }
 

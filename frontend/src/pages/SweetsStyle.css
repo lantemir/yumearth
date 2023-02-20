@@ -1,0 +1,25 @@
+/* .sweets{
+
+} */
+
+.sweets h1{
+
+    text-align: center;
+    color: rgb(121, 217, 121);
+}
+.sweets ul{
+
+    display: flex;
+    width: 80%;
+    margin: auto;
+}
+.sweets ul li{
+    margin-right: 20px;
+    cursor: pointer;
+    
+  
+}
+
+.sweets a {
+    color: green;
+  }

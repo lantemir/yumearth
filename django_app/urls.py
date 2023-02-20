@@ -9,5 +9,10 @@ urlpatterns = [
     re_path(route=r'^chat/(?P<sms_id>\d+)/$', view=views.chat, name="chat_id"),
     re_path(route=r'^chat/$', view=views.chat, name="chat"),
 
-    re_path(route=r'^product/$', view=views.product, name="chat"),
+    # re_path(route=r'^product/(?P<productid>\d+)/$', view=views.product, name="product"),
+    re_path(route=r'^product/$', view=views.product, name="product"),
+
+    re_path(route=r'^productcategory/$', view=views.prod_category, name="prod_category"),
+
+    
 ]

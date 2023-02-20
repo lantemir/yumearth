@@ -1,0 +1,28 @@
+.sweet{
+    border: 1px solid red;
+    width: 85%;
+    margin: auto;
+    display: flex;
+}
+
+.sweetImg{
+    padding: 10%;
+}
+.sweetImg img{
+    width: 100%;
+}
+
+
+.sweetContent{
+    /* width: 40%; */
+    padding: 10%;
+}
+
+
+@media screen and (max-width: 850px){
+
+    .sweet{
+        flex-direction: column;
+    }
+
+}

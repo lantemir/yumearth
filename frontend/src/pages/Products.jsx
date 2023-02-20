@@ -4,7 +4,7 @@ import { getAllProducts } from '../redux/products-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import Paginator from '../components/Paginator/Paginator';
 
-function Products() {
+function Products(props) {
     const dispatch = useDispatch();
 
     const productStore = useSelector(state => state.GetProductsStore)
@@ -12,8 +12,20 @@ function Products() {
     const { products, pageSize, totalCount, currentPage, categoryid } = productStore
 
     useEffect ( () => {
-        getAllProducts(dispatch,1, pageSize, categoryid)
+        
+             getAllProducts(dispatch, 1, pageSize, categoryid)
     },[])
+
+    // useEffect ( () => {
+        
+    //     getAllProducts(dispatch,currentPage, pageSize, categoryid)
+
+    //     console.log("qwe")
+             
+    // },[categoryid])
+
+
+   
 
     const onPageChanged = (currentPage) => {
         getAllProducts(dispatch, currentPage, pageSize, categoryid)    
@@ -27,9 +39,15 @@ function Products() {
         getAllProducts(dispatch, currentPage, pageSize, categoryid);
     }
 
+    const testprops = () => {
+        console.log(props.category.selectedCategory)
+    }
+
 
     return (
         <div className='productWrapper'>
+
+        {console.log("render prod")}
 
             {products && products.map(item => {
                 return (
@@ -64,11 +82,11 @@ function Products() {
 
                 <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onPageChanged={onPageChanged} />
             </div>
-            {/* <div>
-                <button onClick={testGetProd}>testGetProd</button>
+            <div>
+                {/* <button onClick={testGetProd}>testGetProd</button> */}
                 <button onClick={checkStore}>checkStore</button>
-
-            </div> */}
+                <button onClick={testprops}>testprops</button>
+            </div>
         </div>
     )
 }

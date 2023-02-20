@@ -5,10 +5,12 @@ import thunk from "redux-thunk";
 // import { GetAllMessageReducer } from '../pages/Home';
 import { GetAllMessageReducer } from '../redux/message-reducer';
 import { GetProductsReducer } from '../redux/products-reducer';
+import { GetProductReducer} from '../redux/product-reducer'
 
 const globalReducer = combineReducers({
   GetSmsStore: GetAllMessageReducer,
-  GetProductsStore: GetProductsReducer
+  GetProductsStore: GetProductsReducer,
+  GetProductStore: GetProductReducer,
 })
 
 const initialState  = {

@@ -16,46 +16,89 @@ def users(request):
     return JsonResponse({"response": "Ok!"})
 
 @api_view(http_method_names=["GET"])
-def product(request):
+def product(request, productid=None):
     try:
-        if request.method == "GET":
-            currentPage = int(request.GET.get("currentPage" ))
-            pageSize = int(request.GET.get("pageSize"))
-            categoryid = int(request.GET.get("categoryid"))
+        
 
-            print("categoryid")
-            print(categoryid)
+        productid = request.GET.get("productid" )
+        # print(productid)
+        if productid is not None:      
+            productid = int(request.GET.get("productid" ))
 
-            print("currentPage")
-            print(currentPage)
+            if request.method == "GET":
+                obj_list = models.Product.objects.filter(pk = productid)
+                serialized_obj = serializers.ProductsModelSerializer(instance=obj_list, many = True).data[0]
 
-            print("pageSize")
-            print(pageSize)
-            if categoryid > 0:
-                print("есть категория")
+
+
+
+
+
+                return Response( data={"product": serialized_obj }, status=status.HTTP_200_OK)
+        
+
+        
             
-            else:
-                print("нет категории")
 
-                
-
+        else:
+            
+            if request.method == "GET":
                 page = int(request.GET.get("currentPage", 1 ))
                 limit = int(request.GET.get("pageSize", 3))
-                categoryid = int(request.GET.get("categoryid"))
+                categoryid = int(request.GET.get("categoryid", 0))
+
+                print("categoryid")
+                print(categoryid)
+
+                print("currentPage")
+                print(page)
+
+                print("pageSize")
+                print(limit)
+                if categoryid > 0:
+                    obj_list =  models.Product.objects.filter(productCategory = categoryid)
+                    serialized_obj = serializers.ProductsModelSerializer(instance=obj_list, many = True).data
+                    paginator_obj = Paginator(serialized_obj, limit)
+                    current_page = paginator_obj.get_page(page).object_list
+                    # serialized_obj_list = serializers.TextModelSerializer(instance=current_page, many=True).data
+
+                    return Response(data={"List": current_page, "x_total_count": len(obj_list)}, status=status.HTTP_200_OK)
+                
+                else:
+                    print("нет категории")
+
+                    
+
+                    page = int(request.GET.get("currentPage", 1 ))
+                    limit = int(request.GET.get("pageSize", 3))
+                    categoryid = int(request.GET.get("categoryid", 0))
 
 
-                obj_list =  models.Product.objects.all()
-                serialized_obj = serializers.ProductsModelSerializer(instance=obj_list, many = True).data
-                paginator_obj = Paginator(serialized_obj, limit)
-                current_page = paginator_obj.get_page(page).object_list
-                # serialized_obj_list = serializers.TextModelSerializer(instance=current_page, many=True).data
+                    obj_list =  models.Product.objects.all()
+                    serialized_obj = serializers.ProductsModelSerializer(instance=obj_list, many = True).data
+                    paginator_obj = Paginator(serialized_obj, limit)
+                    current_page = paginator_obj.get_page(page).object_list
+                    # serialized_obj_list = serializers.TextModelSerializer(instance=current_page, many=True).data
 
-                return Response(data={"List": current_page, "x_total_count": len(obj_list)}, status=status.HTTP_200_OK)
+                    return Response(data={"List": current_page, "x_total_count": len(obj_list)}, status=status.HTTP_200_OK)
 
         return Response( {"res": "Ok" }, status=status.HTTP_200_OK)
 
 
     except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(http_method_names=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
+def prod_category(request):
+
+    try:
+        if request.method == "GET":
+            obj_list =  models.ProductCategory.objects.all()
+            serialized_obj = serializers.ProductCategoryModelSerializer(instance=obj_list, many = True).data
+            return Response(data={"category": serialized_obj}, status=status.HTTP_200_OK)
+
+    except  Exception as error:
         print(error)
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

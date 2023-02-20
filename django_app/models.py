@@ -36,8 +36,8 @@ class ProductCategory(models.Model):
     class Meta:
         app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
         # ordering = ('title') # сортировка сначала по title потом по dexcription
-        verbose_name = 'Категории историй'    
-        verbose_name_plural = 'Категории историй'
+        verbose_name = 'Категории товаров'    
+        verbose_name_plural = 'Категории товара'
 
     def __str__(self) -> str:
         return f'{self.title}'
