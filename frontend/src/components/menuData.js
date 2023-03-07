@@ -1,3 +1,6 @@
+
+const count = 0;
+
 export const Menudata = [
     {
         title: "Главная",
@@ -25,11 +28,18 @@ export const Menudata = [
         icon: "fa-solid fa-address-book"
     },
     {
-        title: " Личный кабинет",
-        url:"#",
-        cName: "nav-links-mobile",
-        icon: "fa-regular fa-user"
-        
+        title: `Корзина ${count } шт.`,
+        url:"/basket",
+        cName: "nav-links ",
+        icon: "fa-sharp fa-solid fa-basket-shopping"
     },
+    // {
+    //     title: " Личный кабинет",
+    //     url:"/cabinet",
+    //     cName: "nav-links-mobile",
+    //     icon: "fa-regular fa-user"
+        
+    // },
     
 ]
+

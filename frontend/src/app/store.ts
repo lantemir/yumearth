@@ -6,11 +6,15 @@ import thunk from "redux-thunk";
 import { GetAllMessageReducer } from '../redux/message-reducer';
 import { GetProductsReducer } from '../redux/products-reducer';
 import { GetProductReducer} from '../redux/product-reducer'
+import  GetAuthReducer from '../redux/auth-reducer';
+import { GetBasketReducer } from '../redux/basket-reducer';
 
 const globalReducer = combineReducers({
   GetSmsStore: GetAllMessageReducer,
   GetProductsStore: GetProductsReducer,
   GetProductStore: GetProductReducer,
+  GetAuthStore: GetAuthReducer,
+  GetBasketStore: GetBasketReducer,
 })
 
 const initialState  = {

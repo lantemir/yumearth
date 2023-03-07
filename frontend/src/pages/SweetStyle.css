@@ -1,5 +1,5 @@
 .sweet{
-    border: 1px solid red;
+    
     width: 85%;
     margin: auto;
     display: flex;
@@ -16,6 +16,40 @@
 .sweetContent{
     /* width: 40%; */
     padding: 10%;
+
+   
+
+}
+
+
+.sweet form{
+
+    margin: 40px 0;
+    
+}
+.sweet form input{
+    padding: 5px 10px;
+    font-size: 1.2em;
+    border-radius: 20px;
+    border-color: rgb(186, 193, 186);   
+    
+    
+}
+
+.sweet button{
+    padding: 10px 15px;
+    font-size: 1.2em;
+    border-radius: 20px;
+    border: none;
+    outline:none;
+    /* border-color: green;  */
+    background-color: rgb(46, 156, 196);
+    color: white;  
+    margin-left: 50%;
+    transform:translate(-50%, -50%);
+    margin-top: 50px;
+    
+    
 }
 
 

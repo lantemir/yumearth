@@ -1,0 +1,90 @@
+.cabinet{
+    border: 1px solid red;
+    width: 85%;
+    margin: auto;
+}
+
+.cabinet h3{
+    text-align: center;
+    padding-top: 20px;
+}
+
+
+
+.profilInfo{    
+    border: 1px solid rgb(187, 187, 187);
+    width: 80%;
+    margin: 20px auto;
+    padding: 30px 5px;
+    display: flex;
+    flex-direction: column;    
+}
+
+
+
+.profilInfo form input {
+    margin-right: 20px;
+}
+
+.adresInput{
+    width: 90%;
+}
+.profilInfo form input{
+    padding: 5px 7px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(133, 124, 124);
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    
+    
+}
+
+
+.orderLineimg{
+    width: 10%;
+}
+.orderLineimg img{
+    width: 100%;
+}
+.orderLineDescription{
+    width: 90%;
+}
+
+
+.orderLine {
+    /* border: 1px solid rgb(127, 7, 7); */
+    border-bottom: 1px solid gainsboro;
+   display: flex;
+    width: 100%;
+    align-items:center;
+    margin: 10px 0;
+
+}
+.orderLineDescription {
+    display: flex;
+justify-content: space-around;
+}
+
+.sumOrder{
+    text-align: right;
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 850px){
+
+  
+
+    .profilInfo{
+    
+        
+        width: 100%;
+      
+    }
+    
+
+   
+
+}

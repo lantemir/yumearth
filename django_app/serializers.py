@@ -6,7 +6,7 @@ class TextModelSerializer(serializers.ModelSerializer):
         model = models.TextModel
         fields = "__all__"
 
-class ProductsModelSerializer(serializers.ModelSerializer):
+class  ProductsModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         fields = "__all__"

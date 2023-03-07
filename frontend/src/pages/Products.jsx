@@ -3,6 +3,7 @@ import "./ProductsStyle.css";
 import { getAllProducts } from '../redux/products-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import Paginator from '../components/Paginator/Paginator';
+import { Link } from 'react-router-dom';
 
 function Products(props) {
     const dispatch = useDispatch();
@@ -52,12 +53,16 @@ function Products(props) {
             {products && products.map(item => {
                 return (
                     <div className='productBox' key={item.id}>
+                        <Link to={`/sweet/${item.id}`}>
                         <img src={item.image} />
                         <h3>{item.title}</h3>
                         <p>{item.price}тг</p>
+                        </Link>
                     </div>
                 )
             })}
+
+
 
 
             {/* <div className='productBox'>

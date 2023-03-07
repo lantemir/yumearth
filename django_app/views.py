@@ -6,14 +6,54 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator
 from django_app import models
 from django_app import serializers
+import json
 # Create your views here.
 
 
 def index(request):
-    return JsonResponse({"response": "Ok!"})
+    context={}
+
+    print("index")
+    return render(request=request, template_name = 'build/index.html', context=context, status=status.HTTP_200_OK)
 
 def users(request):
     return JsonResponse({"response": "Ok!"})
+
+
+@api_view(http_method_names=["POST"])
+def basketproducts(request):
+    try:
+
+        # basket_local_storage = request.GET.get("basketlocalstorage" )
+
+        
+
+        data = json.loads(request.body)
+        basket_local_storage = data.get('basketlocalstorage')
+
+        new_products_id = []
+
+        for prodid in basket_local_storage:
+            new_prodid = prodid["product_id"]            
+            new_products_id.append(new_prodid)
+
+        objs = models.Product.objects.filter(id__in = new_products_id)     
+
+        serialized_obj = serializers.ProductsModelSerializer(instance=objs, many = True).data      
+        
+
+        # print("data")
+        # print(data)
+       
+
+        # print("basket_local_storage")
+        # print(basket_local_storage)
+
+        return Response( data={"product": serialized_obj }, status=status.HTTP_200_OK)
+
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(http_method_names=["GET"])
 def product(request, productid=None):

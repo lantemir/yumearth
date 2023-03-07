@@ -71,7 +71,7 @@ function Sweets() {
                     {/* {categories && categories[0].title} */}
                     {categories && categories.map(item => {
                         return (
-                            <li onClick={() => requestCurrentCategory(dispatch, item.id)} key={item.id}> <i class="fa-solid fa-arrow-down-wide-short"></i> {item.title}</li>
+                            <li onClick={() => requestCurrentCategory(dispatch, item.id)} key={item.id}> <i className="fa-solid fa-arrow-down-wide-short"></i> {item.title}</li>
                         )
                     })}
                 </ul>
