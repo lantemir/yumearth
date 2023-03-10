@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import OrderService from '../services/OrderService';
 
 export const GET_PRODUCT_BASCET = "GET_PRODUCT_BASCET";
 export const GET_PRODUCT_TOTALCOUNT = "GET_PRODUCT_TOTALCOUNT";
@@ -46,12 +46,8 @@ export const getFromLocalStorage = async(dispatch) => {
             basketlocalstorage: basketFromLocalStorage
         }       
 
-        const response = await axios.post('/api/basketproducts/', data)
-        console.log(response.data.product)
-        const productDb = response.data.product
-
-        console.log("basketFromLocalStorage")
-        console.log(basketFromLocalStorage)
+        const response = await axios.post('/api/basketproducts/', data)        
+        const productDb = response.data.product       
 
         const updateObjects = productDb.map(obj1 =>{
             const obj2 = basketFromLocalStorage.find(obj2 => obj1.id ===  parseInt(obj2.product_id));
@@ -71,12 +67,24 @@ export const getFromLocalStorage = async(dispatch) => {
 }
 
 export const clearBasket = (dispatch) => {
-
     localStorage.removeItem("product");
     dispatch({type: CLEAR_BASKET, payload: []})
-
 }
 
-export const newOrder = (dispatch) => {
+export const newOrder = async(dispatch, basketProduct) => {
+    if (basketProduct){
+        const data = {
+            basketProducts: basketProduct
+        }   
+
+        const orders = await OrderService.setOrder(data);
+
+        // const orders = await axios.post('/api/orders/', data)
+
+
+        console.log("orders")
+        console.log(orders)
+
+    }
     
 }

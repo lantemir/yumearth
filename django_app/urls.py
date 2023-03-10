@@ -25,5 +25,7 @@ urlpatterns = [
 
     re_path(route=r'^productcategory/$', view=views.prod_category, name="prod_category"),
 
+    re_path(route=r'^orders/$', view=views.orders, name="orders"),
+
     
 ]

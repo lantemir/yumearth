@@ -67,7 +67,61 @@ class TextModelAdmin(admin.ModelAdmin):
 
 
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display =( # поля для отображения
+        'id',
+        'author',
+        'created_datetime',
+        'order_status',       
+        'shipping_address',
+        'billing_address',
+        'payment_method',
+        'is_done',
+        'notes',
+
+        
+    )
+    filter_horizontal = ('pproduct',) # только для полей флрмата many to many fields
+    list_display_links = ( # поля ссылка
+        'created_datetime',
+             
+    )
+    list_editable = ( # поля для редактирование объекта на лету
+        # 'category',
+      
+    )
+    list_filter = ( 
+        'created_datetime',
+        'order_status',
+        'author',
+        
+        
+       
+    )
+    # fieldsets = ( # подзаголовки для визуального отделения блоков друг от друга
+    #     ('Основное', {'fields': (
+    #         'author',            
+            
+           
+    #     )}),
+    #     ('Дополнительно', {'fields': (
+          
+    #         'author',
+    #     )}),
+    # )
+    search_fields =[ # поле для поиска
+       'created_datetime',
+        'order_status',
+        'author',
+        
+    ]
+
+
+
 admin.site.register(models.TextModel, TextModelAdmin)
 admin.site.register(models.ProductCategory)
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Profile)
+# admin.site.register(models.Order)
+admin.site.register(models.Order, OrderAdmin)
+admin.site.register(models.OrderProduct)

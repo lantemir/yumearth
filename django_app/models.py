@@ -161,7 +161,14 @@ class Profile(models.Model):
     )    
 
     delivary_adres = models.CharField(
-        verbose_name='Адрес доставки',
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+       
+        
+        verbose_name="адрес доставки",
+        help_text='<small class="text-muted">это адрес доставки</small><hr><br>',
         max_length=500,
     )
 
@@ -182,3 +189,125 @@ def create_profile(sender, instance, created, **kwargs):
         Profile.objects.get_or_create(user=instance)
     else:
         Profile.objects.get_or_create(user=instance)
+
+
+
+
+
+
+
+# до Order 0003 миграция последняя
+class Order(models.Model):
+    # title = models.CharField (
+    #     primary_key=False,
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
+
+    #     verbose_name="Заголовок категории товара",
+    #     help_text='<small class="text-muted">это наш заголовок категории товара</small><hr><br>',
+    #     max_length=250,
+    # )
+
+    author = models.ForeignKey(
+        verbose_name='Автор',
+        blank=True,
+        to=User,
+        on_delete=models.CASCADE,  # on_delete=models.SET_NULL, #CASCADE - удаляет всю запись при удаление связаной (родительской) записи.    SET_NULL - зануляет превращает в null    DO_NOTHING
+    )
+
+    
+
+    pproduct= models.ManyToManyField(        
+        primary_key=False,      
+        unique=False,
+        editable=True,
+        blank=True,
+       
+        default= None,
+        verbose_name="товары",
+        help_text='<small class="text-muted">товары заказанные</small><hr><br>',
+
+        to=Product,       
+        
+    )
+
+
+    
+    created_datetime = models.DateTimeField(
+        default=timezone.now,        
+        verbose_name='Время создания',
+    )
+
+    order_status = models.CharField(max_length=20, choices=(
+        ('pending', 'В ожидании'),
+        ('processing', 'Обработка'),
+        ('shipped', 'Отправленный'),
+        ('delivered', 'Доставленный'),
+        ('cancelled', 'Отменено'),
+    ))
+
+    shipping_address = models.TextField(
+        blank=True)
+
+    billing_address = models.TextField(
+        blank=True
+    )
+
+    payment_method = models.CharField(max_length=20, choices=(
+        ('credit_card', 'Кредитная карта'),
+        ('cash', 'Наличными'),        
+    ), blank=True)
+
+
+    is_done = models.BooleanField(
+        default=False,
+
+        verbose_name="Заказ выполенен?",
+        help_text='<small class="text-muted">Заказ выполенен</small><hr><br>',
+    )
+
+    
+
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
+        # ordering = ('title') # сортировка сначала по title потом по dexcription
+        verbose_name = 'Заказы'    
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self) -> str:
+        return f'{self.pk}'
+
+
+# много ко многому
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    count_product = models.IntegerField()
+
+
+
+
+
+
+# Логика во wiew
+
+# create an order
+# order = Order.objects.create()
+
+# # create products and add them to the order with counts
+# product1 = Product.objects.create(name='Product 1')
+# product2 = Product.objects.create(name='Product 2')
+
+# OrderProduct.objects.create(order=order, product=product1, count=2)
+# OrderProduct.objects.create(order=order, product=product2, count=1)
+
+# # retrieve the products in the order with their counts
+# products_in_order = order.products.all().prefetch_related('orderproduct_set')
+# for product in products_in_order:
+#     order_product = product.orderproduct_set.first()
+#     print(f'{product.name}: {order_product.count}')

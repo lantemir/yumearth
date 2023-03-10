@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.paginator import Paginator
 from django_app import models
 from django_app import serializers
 import json
+from rest_framework.permissions import AllowAny, IsAuthenticated
 # Create your views here.
 
 
@@ -18,6 +19,71 @@ def index(request):
 
 def users(request):
     return JsonResponse({"response": "Ok!"})
+
+@api_view(http_method_names=["POST"])
+@permission_classes([IsAuthenticated, AllowAny])
+def orders(request):
+    
+    try:
+        if request.method == "POST":
+            data = json.loads(request.body)
+            orders = data.get('basketProducts')
+
+            user_id = request.user.pk
+
+            print('user_id')
+            print(user_id)
+
+            # order = models.Order.objects.create()
+
+            # for ord in orders:
+
+                
+
+            #     # print(ord['id']  )
+            #     # print(ord['count'])
+
+            #     models.OrderProduct.objects.create(order = order, product= ord['id'], cont= ord['count'])
+
+            #     products_in_order = order.pproduct.all.prefetch_related('orderproduct_set')
+
+            #     print('products_in_order')
+            #     print(products_in_order)
+            #     for product in products_in_order:
+            #         order_product = product.orderproduct_set.first()
+            #         print(f'{product.id}: {order_product.count}')
+
+
+            
+
+
+            # models.OrderProduct.objects.create
+
+            # create an order
+# order = Order.objects.create()
+
+# # create products and add them to the order with counts
+# product1 = Product.objects.create(name='Product 1')
+# product2 = Product.objects.create(name='Product 2')
+
+# OrderProduct.objects.create(order=order, product=product1, count=2)
+# OrderProduct.objects.create(order=order, product=product2, count=1)
+
+# # retrieve the products in the order with their counts
+# products_in_order = order.products.all().prefetch_related('orderproduct_set')
+# for product in products_in_order:
+#     order_product = product.orderproduct_set.first()
+#     print(f'{product.name}: {order_product.count}')
+
+
+            # print(orders)
+
+            return Response( data={"orders": orders }, status=status.HTTP_200_OK)
+
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 @api_view(http_method_names=["POST"])

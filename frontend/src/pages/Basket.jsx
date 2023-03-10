@@ -3,7 +3,7 @@ import "../css/pages_style/BasketStyle.css";
 import { useDispatch, useSelector } from 'react-redux';
 import * as bases from '../components/bases';
 
-import { getFromLocalStorage, clearBasket } from '../redux/basket-reducer';
+import { getFromLocalStorage, clearBasket, newOrder } from '../redux/basket-reducer';
 import { Link } from 'react-router-dom';
 
 
@@ -26,7 +26,7 @@ function Basket() {
     }
 
     const makeOrder =() => {
-
+        newOrder(dispatch, basketProduct)
     }
 
     const testgetFromLocalStorage = () => {
@@ -73,7 +73,7 @@ function Basket() {
 
                     <div className='buttonLine'>
                        <button onClick={clearingBasket}>Очистить корзину</button>
-                        <button onClick={makeOrder} className='bgGreen'>Заказать</button>
+                       <Link to = {`/order/`}> <button  className='bgGreen'>Продолжить</button></Link>
                         
                         <p className='sumOrder'>Итого: {totalcount} тенге</p>
                     </div>
