@@ -51,6 +51,12 @@ const setError = (errorMessage) => ({type: SET_ERROR_AUTHORITHATION, errorMessag
 
 const setUser = (user) => ({type: SETUSER,  user})
 
+
+// const checkIsStaff = async() => {
+//     const response = await AuthService.isStaff();
+//     return response;
+// }
+
 export const requestLogin = async (userName, password, dispatch) => {  
 
  
@@ -61,9 +67,12 @@ export const requestLogin = async (userName, password, dispatch) => {
         localStorage.setItem('refreshToken', response.data.refresh);    
         dispatch(setAuth(true));
         
+        const responseIsStaff = await AuthService.isStaff();
       
         console.log("auth-reducer")
         console.log(response);
+
+        console.log(responseIsStaff);
         // dispatch(setUser(response.data.user))
 
         console.log("auth-reducer")

@@ -76,12 +76,12 @@ class OrderAdmin(admin.ModelAdmin):
         'shipping_address',
         'billing_address',
         'payment_method',
-        'is_done',
+        
         'notes',
 
         
     )
-    filter_horizontal = ('pproduct',) # только для полей флрмата many to many fields
+    # filter_horizontal = ('pproduct',) # только для полей флрмата many to many fields
     list_display_links = ( # поля ссылка
         'created_datetime',
              
@@ -125,3 +125,7 @@ admin.site.register(models.Profile)
 # admin.site.register(models.Order)
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderProduct)
+admin.site.register(models.OrderStatus)
+admin.site.register(models.PaymentMethod)
+admin.site.register(models.DeliveryMethod)
+

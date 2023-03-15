@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { Menudata } from "./menuData";
 import "./navbarStyle.css";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getFromLocalStorage } from '../redux/basket-reducer';
 
 
 
 const Navbar1 = ()=>  {
   // state = {clicked:false};
+  const dispatch = useDispatch();
 
 
   const [clicked, setclicked] = useState(false);
 
   const store = useSelector(state => state.GetAuthStore)
+  const basketStore = useSelector(state => state.GetBasketStore)
+
+  useEffect ( () => {
+
+},[basketStore.totalcount])
   
+  useEffect ( () => {
+    getFromLocalStorage(dispatch);
+},[])
+
 
 
   const handleClick = () => {
@@ -38,11 +49,18 @@ const Navbar1 = ()=>  {
         </div>
 
         <ul className={clicked ? "nav-menu active" : "nav-menu"}>
-          {Menudata.map((item, index) => {
+          {/* {Menudata.map((item, index) => {
             return(
               <li key={index}><Link  to={item.url} className={item.cName}><i className={item.icon}></i>{item.title}</Link></li>
             )
-          })}
+          })} */}
+
+          <li ><Link  to="/" className="nav-links"><i className="fa-solid fa-house-user"></i>Главная</Link></li>
+          <li ><Link  to="/sweets" className="nav-links"><i className="fa-solid fa-candy-cane"></i>Сладости</Link></li>
+          <li ><Link  to="/about" className="nav-links"><i className="fa-solid fa-circle-info"></i>О нас</Link></li>
+          <li ><Link  to="#" className="nav-links"><i className="fa-solid fa-address-book"></i>Контакты</Link></li>
+          <li ><Link  to="/basket" className="nav-links"><i className="fa-sharp fa-solid fa-basket-shopping"></i>Корзина: <span>{basketStore.totalcount}</span> тг.</Link></li>
+        
 
           { store.isAuth ? <li><a  href="/cabinet" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Личный кабинет</a></li>
           : <li><Link  to="/login" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Войти</Link></li>}

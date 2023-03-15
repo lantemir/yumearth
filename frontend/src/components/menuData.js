@@ -1,5 +1,5 @@
 
-const count = 0;
+
 
 export const Menudata = [
     {
@@ -28,7 +28,7 @@ export const Menudata = [
         icon: "fa-solid fa-address-book"
     },
     {
-        title: `Корзина ${count } шт.`,
+        title: `Корзина  шт.`,
         url:"/basket",
         cName: "nav-links ",
         icon: "fa-sharp fa-solid fa-basket-shopping"

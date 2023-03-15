@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as bases from '../components/bases';
 import "../css/pages_style/OrderStyle.css";
-import {newOrder } from '../redux/basket-reducer';
+import {newOrder, getDeliveryAndPaymentType } from '../redux/basket-reducer';
 // import Slider from './Slider';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -14,15 +14,16 @@ function Order() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [adres, setAdres] = useState('');
 
-    const [payOption, setpayOption] = useState('');
-    const [deliveryOption, setDeliveryOption] = useState('');
+    const [payOption, setpayOption] = useState(0);
+    const [deliveryOption, setDeliveryOption] = useState(0);
 
-    const payoptions = ['Наличными', 'Кредитная карта'];
+    // const payoptions = ['Наличными', 'Кредитная карта'];
 
-    const deliveroptions = ['Самовывоз', 'Доставка'];
+    // const deliveroptions = ['Самовывоз', 'Доставка'];
 
     const basketStore = useSelector(state => state.GetBasketStore)
-    const { totalcount, basketProduct } = basketStore;
+    const store = useSelector(state => state.GetAuthStore)
+    const { totalcount, basketProduct, deliveryType, paymentType } = basketStore;
 
 
     const dispatch = useDispatch()
@@ -37,25 +38,25 @@ function Order() {
         setDeliveryOption(event.target.value);
       };
 
-    const makeOrder =() => {
-         newOrder(dispatch, basketProduct , phoneNumber , adres )
+    const makeOrder =(e) => {
+
+        e.preventDefault();
+         newOrder(dispatch, basketProduct , phoneNumber , adres, payOption, deliveryOption, store.isAuth , totalcount)
     }
 
 
+    
 
-    // useEffect(() => {
-    //     if (store.isAuth) {   
-
-    //         console.log("store.isAuth")
-    //         console.log(store.isAuth)
-    //         navigate("/");
-    //     }
-    //   }, [store.isAuth]);
+    useEffect(() => {
+        getDeliveryAndPaymentType(dispatch)
+      }, []);
 
 
 
     const showState = (e) => {
         e.preventDefault();
+
+        
         console.log(basketStore)
     }
 
@@ -86,9 +87,9 @@ function Order() {
                         <label>Способо забрать товар:</label>
                         <select value={deliveryOption} onChange={handleDelivery} required>
                             <option value="">--Способ забрать товар--</option>
-                            {deliveroptions.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
+                            {deliveryType && deliveryType.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {option.title}
                                 </option>
                             ))}
                         </select>
@@ -100,17 +101,17 @@ function Order() {
                         
                         <select value={payOption} onChange={payHandleChange} required>
                             <option value="">--Способ оплаты--</option>
-                            {payoptions.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
+                            { paymentType && paymentType.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {option.title}
                                 </option>
                             ))}
                         </select>
 
                         
-                        <button onClick={makeOrder} >Заказ</button>
+                        <button onClick={makeOrder} >Заказать</button>
                         
-                        {/* <button onClick={showState}>showState</button> */}
+                        <button onClick={showState}>showState</button>
 
 
                     </form>

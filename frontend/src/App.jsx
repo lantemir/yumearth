@@ -19,6 +19,7 @@ import Login from './pages/Login';
 import Basket from './pages/Basket';
 import Cabinet from './pages/Cabinet';
 import Order from './pages/Order';
+import Manager from './pages/Manager';
 
 
 
@@ -56,6 +57,7 @@ const  App = () => {
       <Route path="/cabinet" element={<Cabinet/>}></Route>
       <Route path="/basket" element={<Basket/>}></Route>
       <Route path="/order" element={<Order/>}></Route>
+      <Route path='/manager' element={<Manager/>}></Route>
       
 
 

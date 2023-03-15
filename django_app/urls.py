@@ -14,6 +14,9 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
+    path('isstaff/', view=views.isstaff, name="isstaff"),
+    
+
     re_path(route=r'^users/$', view=views.users, name="users"),
     re_path(route=r'^chat/(?P<sms_id>\d+)/$', view=views.chat, name="chat_id"),
     re_path(route=r'^chat/$', view=views.chat, name="chat"),
@@ -26,6 +29,8 @@ urlpatterns = [
     re_path(route=r'^productcategory/$', view=views.prod_category, name="prod_category"),
 
     re_path(route=r'^orders/$', view=views.orders, name="orders"),
+
+    re_path(route=r'^deliveryandpaymenttype/$', view=views.deliverypayment, name="deliverypayment"),
 
     
 ]

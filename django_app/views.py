@@ -8,7 +8,12 @@ from django_app import models
 from django_app import serializers
 import json
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import permissions #повторно вызвался
+
 # Create your views here.
+
+#пароль менеджера manager Temir777@
 
 
 def index(request):
@@ -20,38 +25,113 @@ def index(request):
 def users(request):
     return JsonResponse({"response": "Ok!"})
 
+
+# isstaff
 @api_view(http_method_names=["POST"])
-@permission_classes([IsAuthenticated, AllowAny])
+@permission_classes([IsAuthenticated])
+def isstaff(request):
+    try:
+        print (request.user.is_staff)
+
+        return Response( data={"is_staff": request.user.is_staff }, status=status.HTTP_200_OK)
+
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
+
+
+@api_view(http_method_names=["POST"])
+# @permission_classes([IsAuthenticated, ])
+@permission_classes([AllowAny])
+# @csrf_exempt
 def orders(request):
     
     try:
         if request.method == "POST":
             data = json.loads(request.body)
-            orders = data.get('basketProducts')
+            products = data.get('basketProducts')
 
-            user_id = request.user.pk
+            phone_number = data.get('phoneNumber')
+            adres = data.get('adres')
+            pay_option_id =  data.get('payOption')
+            delivery_option_id = data.get('deliveryOption')
+            totalcount = data.get('totalcount')
+           
 
-            print('user_id')
-            print(user_id)
 
-            # order = models.Order.objects.create()
 
-            # for ord in orders:
+            user_id = None
+
+            if(request.user.pk):
+                user_id = request.user.pk
+
+            order_status =  models.OrderStatus.objects.get(title='В ожидании')
+
+            pay_option = models.PaymentMethod.objects.get(pk = pay_option_id)
+            delivery_option = models.DeliveryMethod.objects.get(pk = delivery_option_id)
+
+
+            # print('status')
+            # print(order_status.pk)
+
+
+            # user_id = request.user.pk
+
+            # print('user_id')
+            # print(user_id)
+
+            # print('data')
+            # print(data)
+
+            
+
+            order = models.Order.objects.create(author = user_id, order_status = order_status, shipping_address = adres, 
+             payment_method = pay_option,  phone_number =  phone_number, delivery_method = delivery_option, total_price= totalcount)
+
+            print(order)
+
+            for ord in products:
+
+                product_obj = models.Product.objects.get(pk = ord["id"])
+
+                # print(ord['id']  )
+                # print(ord['count'])
+
+                models.OrderProduct.objects.create(order = order, product= product_obj, count_product= ord['count'])
+
+            #products_in_order = order.pproduct.all.prefetch_related('orderproduct_set')
+
+            print("ord_prod")
+            ord_prod = models.OrderProduct.objects.filter(order = order.pk)
+
+            print("ord_prod")
+            print(ord_prod)
+
+            for pr in ord_prod:
+                # print( pr.order + pr.product + pr.count_product )
+
+                print(f'{pr.order}: {pr.product} : {pr.count_product}')
 
                 
 
-            #     # print(ord['id']  )
-            #     # print(ord['count'])
+            # products_in_order2 = models.Order.objects.prefetch_related('pproduct')
 
-            #     models.OrderProduct.objects.create(order = order, product= ord['id'], cont= ord['count'])
+            # print("products_in_order2")
+            # print(products_in_order2)
 
-            #     products_in_order = order.pproduct.all.prefetch_related('orderproduct_set')
+            # products_in_order3 = models.OrderProduct.objects.prefetch_related('product')
 
-            #     print('products_in_order')
-            #     print(products_in_order)
-            #     for product in products_in_order:
-            #         order_product = product.orderproduct_set.first()
-            #         print(f'{product.id}: {order_product.count}')
+            # print("products_in_order3")
+            # print(products_in_order3)
+
+                # print('products_in_order')
+                # print(products_in_order)
+                # for product in products_in_order:
+                #     order_product = product.orderproduct_set.first()
+                #     print(f'{product.id}: {order_product.count}')
 
 
             
@@ -78,7 +158,25 @@ def orders(request):
 
             # print(orders)
 
-            return Response( data={"orders": orders }, status=status.HTTP_200_OK)
+            return Response( data={"orders": products }, status=status.HTTP_200_OK)
+
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(http_method_names=["GET", "POST"])
+def deliverypayment(request):
+    try:
+        if request.method == "GET":
+            deliveryObj = models.DeliveryMethod.objects.all()
+            deliverySerialized_obj = serializers.DeliveryMethodSerializer(instance=deliveryObj, many = True).data
+
+            paymentObj = models.PaymentMethod.objects.all()
+            paymentSerialized_obj = serializers.PaymentMethodSerializer(instance=paymentObj, many = True).data
+
+            return Response( data={"delivery": deliverySerialized_obj, "payment": paymentSerialized_obj }, status=status.HTTP_200_OK)
+
 
     except Exception as error:
         print(error)

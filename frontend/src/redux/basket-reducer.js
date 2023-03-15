@@ -3,16 +3,18 @@ import OrderService from '../services/OrderService';
 
 export const GET_PRODUCT_BASCET = "GET_PRODUCT_BASCET";
 export const GET_PRODUCT_TOTALCOUNT = "GET_PRODUCT_TOTALCOUNT";
-export const CLEAR_BASKET = "CLEAR_BASKET"
+export const CLEAR_BASKET = "CLEAR_BASKET";
+export const GET_DELIVARY_TYPE = "GET_DELIVARY_TYPE";
+export const GET_PAYMENT_TYPE = "GET_PAYMENT_TYPE";
 
 
 
 let initialState = {
     
     totalcount: 0,
-
-    basketProduct:[]
-    
+    basketProduct:[],
+    deliveryType:[],
+    paymentType: [],    
   };
 
 
@@ -26,6 +28,10 @@ export function GetBasketReducer(state = initialState, action = null) {
             return {...state, totalcount: action.payload}
         case CLEAR_BASKET:
             return {...state, basketProduct: action.payload}
+        case GET_DELIVARY_TYPE:
+                return {...state, deliveryType: action.payload}
+        case GET_PAYMENT_TYPE:
+                return {...state, paymentType: action.payload}
         default:
             return state
     }
@@ -71,13 +77,45 @@ export const clearBasket = (dispatch) => {
     dispatch({type: CLEAR_BASKET, payload: []})
 }
 
-export const newOrder = async(dispatch, basketProduct) => {
+
+
+export const getDeliveryAndPaymentType = async(dispatch) => {
+
+    const deliveryAndPaymentType = await axios.get('/api/deliveryandpaymenttype/');
+
+
+    
+    dispatch({type: GET_DELIVARY_TYPE, payload: deliveryAndPaymentType.data.delivery})
+    dispatch({type: GET_PAYMENT_TYPE, payload: deliveryAndPaymentType.data.payment})
+
+    
+}
+
+export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, payOption, deliveryOption, isAuth ,totalcount) => {
     if (basketProduct){
+
+        let orders = null
+
         const data = {
-            basketProducts: basketProduct
+            basketProducts: basketProduct,
+            phoneNumber: phoneNumber,
+            adres: adres,
+            payOption: payOption,
+            deliveryOption: deliveryOption,
+            totalcount: totalcount
         }   
 
-        const orders = await OrderService.setOrder(data);
+        console.log(isAuth)
+
+        if (isAuth){
+            orders = await OrderService.setOrder(data);
+        }
+        else{
+            console.log("asdaqwer")
+            orders = await axios.post('/api/orders/', data)
+        }
+        
+        
 
         // const orders = await axios.post('/api/orders/', data)
 

@@ -129,7 +129,7 @@ class Product(models.Model):
         verbose_name_plural = 'товары'
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.pk}'
 
 
 
@@ -192,7 +192,72 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 
+class OrderStatus(models.Model):
+    title = models.CharField (
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
 
+        verbose_name="Статусы заказа",
+        help_text='<small class="text-muted">Статусы заказа</small><hr><br>',
+        max_length=250,
+    )
+
+    class Meta:
+        app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
+        # ordering = ('title') # сортировка сначала по title потом по dexcription
+        verbose_name = 'Статусы заказа'    
+        verbose_name_plural = 'Статусы заказа'
+
+    def __str__(self) -> str:
+        return f'{self.title}'
+
+
+class PaymentMethod(models.Model):
+    title = models.CharField (
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+
+        verbose_name="Способ оплаты",
+        help_text='<small class="text-muted">Способ оплаты</small><hr><br>',
+        max_length=250,
+    )
+
+    class Meta:
+        app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
+        # ordering = ('title') # сортировка сначала по title потом по dexcription
+        verbose_name = 'Способ оплаты'    
+        verbose_name_plural = 'Способ оплаты'
+
+    def __str__(self) -> str:
+        return f'{self.title}'
+
+
+
+
+class DeliveryMethod(models.Model):
+    title = models.CharField (
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+
+        verbose_name="Способ доставки",
+        help_text='<small class="text-muted">Способ доставки</small><hr><br>',
+        max_length=250,
+    )
+
+    class Meta:
+        app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
+        # ordering = ('title') # сортировка сначала по title потом по dexcription
+        verbose_name = 'Способ доставки'    
+        verbose_name_plural = 'Способ доставки'
+
+    def __str__(self) -> str:
+        return f'{self.title}'
 
 
 
@@ -212,25 +277,26 @@ class Order(models.Model):
     author = models.ForeignKey(
         verbose_name='Автор',
         blank=True,
+        null=True,
         to=User,
         on_delete=models.CASCADE,  # on_delete=models.SET_NULL, #CASCADE - удаляет всю запись при удаление связаной (родительской) записи.    SET_NULL - зануляет превращает в null    DO_NOTHING
     )
 
     
-
-    pproduct= models.ManyToManyField(        
-        primary_key=False,      
-        unique=False,
-        editable=True,
-        blank=True,
+    # удалил 
+    # pproduct= models.ManyToManyField(       
+    #     primary_key=False,      
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
        
-        default= None,
-        verbose_name="товары",
-        help_text='<small class="text-muted">товары заказанные</small><hr><br>',
+    #     default= None,
+    #     verbose_name="товары",
+    #     help_text='<small class="text-muted">товары заказанные</small><hr><br>',
 
-        to=Product,       
+    #     to=Product,       
         
-    )
+    # )
 
 
     
@@ -239,33 +305,48 @@ class Order(models.Model):
         verbose_name='Время создания',
     )
 
-    order_status = models.CharField(max_length=20, choices=(
-        ('pending', 'В ожидании'),
-        ('processing', 'Обработка'),
-        ('shipped', 'Отправленный'),
-        ('delivered', 'Доставленный'),
-        ('cancelled', 'Отменено'),
-    ))
+    order_status = models.ForeignKey(
+        verbose_name='Статус заказа',
+        blank=True,
+        null=True,
+        to=OrderStatus,
+        on_delete=models.CASCADE,  # on_delete=models.SET_NULL, #CASCADE - удаляет всю запись при удаление связаной (родительской) записи.    SET_NULL - зануляет превращает в null    DO_NOTHING
+    )
 
     shipping_address = models.TextField(
         blank=True)
 
     billing_address = models.TextField(
         blank=True
+    )    
+
+    payment_method = models.ForeignKey(
+        verbose_name='Способ оплаты',
+        blank=True,
+        null=True,
+        to=PaymentMethod,
+        on_delete=models.CASCADE,  # on_delete=models.SET_NULL, #CASCADE - удаляет всю запись при удаление связаной (родительской) записи.    SET_NULL - зануляет превращает в null    DO_NOTHING
     )
 
-    payment_method = models.CharField(max_length=20, choices=(
-        ('credit_card', 'Кредитная карта'),
-        ('cash', 'Наличными'),        
-    ), blank=True)
+    delivery_method = models.ForeignKey(
+        verbose_name='Способ доставки',
+        blank=True,
+        null=True,
+        to=DeliveryMethod,
+        on_delete=models.CASCADE,  # on_delete=models.SET_NULL, #CASCADE - удаляет всю запись при удаление связаной (родительской) записи.    SET_NULL - зануляет превращает в null    DO_NOTHING
+    )  
 
-
-    is_done = models.BooleanField(
-        default=False,
-
-        verbose_name="Заказ выполенен?",
-        help_text='<small class="text-muted">Заказ выполенен</small><hr><br>',
+    phone_number = models.TextField(
+        blank=True
     )
+
+
+    # is_done = models.BooleanField(
+    #     default=False,
+
+    #     verbose_name="Заказ выполенен?",
+    #     help_text='<small class="text-muted">Заказ выполенен</small><hr><br>',
+    # )
 
     
 
@@ -290,6 +371,15 @@ class OrderProduct(models.Model):
     count_product = models.IntegerField()
 
 
+
+
+
+
+#  ('pending', 'В ожидании'),
+#         ('processing', 'Обработка'),
+#         ('shipped', 'Отправленный'),
+#         ('delivered', 'Доставленный'),
+#         ('cancelled', 'Отменено'),
 
 
 
