@@ -8,6 +8,9 @@ import { GetProductsReducer } from '../redux/products-reducer';
 import { GetProductReducer} from '../redux/product-reducer'
 import  GetAuthReducer from '../redux/auth-reducer';
 import { GetBasketReducer } from '../redux/basket-reducer';
+import GetManagerReducer from '../redux/manager-reducer';
+
+
 
 const globalReducer = combineReducers({
   GetSmsStore: GetAllMessageReducer,
@@ -15,6 +18,7 @@ const globalReducer = combineReducers({
   GetProductStore: GetProductReducer,
   GetAuthStore: GetAuthReducer,
   GetBasketStore: GetBasketReducer,
+  GetManagerStore: GetManagerReducer,
 })
 
 const initialState  = {

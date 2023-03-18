@@ -5,12 +5,14 @@ import AuthService from "../services/AuthService"
 const SETAUTH = "SETAUTH";
 const SETUSER = "SETUSER";
 const SET_ERROR_AUTHORITHATION = "SET_ERROR_AUTHORITHATION";
+const SETSTAFF = "SETSTAFF";
 
 
 let initialState = {
     user : {},
     isAuth: false,
     errorMessage: '',
+    isStaff: false,
     
 };
 
@@ -30,6 +32,11 @@ let initialState = {
         case SETUSER: {
             return{ ...state,  isAuth: action.user};
         }
+
+        case SETSTAFF: {
+            
+            return{ ...state,  isStaff: action.isStaff};
+        }
         // case DELETETOKEN: {
         //     return{ ...state,  load: false, token: null};
         // }
@@ -47,7 +54,7 @@ let initialState = {
 
 const setAuth = (isAuth) => ({type: SETAUTH, isAuth})
 const setError = (errorMessage) => ({type: SET_ERROR_AUTHORITHATION, errorMessage})
-
+const setStaff= (isStaff) => ({type: SETSTAFF, isStaff})
 
 const setUser = (user) => ({type: SETUSER,  user})
 
@@ -65,14 +72,22 @@ export const requestLogin = async (userName, password, dispatch) => {
         const response = await AuthService.login(userName, password);    
         localStorage.setItem('token', response.data.access);      
         localStorage.setItem('refreshToken', response.data.refresh);    
-        dispatch(setAuth(true));
+        
         
         const responseIsStaff = await AuthService.isStaff();
+
+        if (responseIsStaff.data.is_staff) {
+            dispatch(setStaff(true));
+            console.log(" dispatch(setStaff(true));")
+
+        }
+
+        dispatch(setAuth(true));
       
         console.log("auth-reducer")
         console.log(response);
 
-        console.log(responseIsStaff);
+        console.log(responseIsStaff.data.is_staff);
         // dispatch(setUser(response.data.user))
 
         console.log("auth-reducer")

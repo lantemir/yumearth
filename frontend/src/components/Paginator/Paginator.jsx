@@ -4,13 +4,16 @@ import cn from "classnames";  // npm install classnames //  classNames= {cn(styl
                                   // classNames= {cn(styles.paginator, [styles.selectedPages]: true)}
 
 
-let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize = 3}) => {
+let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize = 2}) => {
 
     // console.log("Paginator");
     // console.log(totalCount)
     // console.log(pageSize)
     // console.log(currentPage)
     // console.log(portionSize)
+
+    const next = ">>>"
+    const prev = "<<<"
 
     let pagesCount = Math.ceil(totalCount / pageSize); //   12/4 =3
 
@@ -27,7 +30,7 @@ let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize 
     return <div className={styles.paginator}>
         
         {portionNumber > 1 &&
-            <button onClick={ () => { setportionNumber(portionNumber - 1)}}>PREV</button>}
+            <button onClick={ () => { setportionNumber(portionNumber - 1)}}>{prev}</button>}
 
                 {pages 
                      .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber )
@@ -41,7 +44,7 @@ let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize 
                                 }}>{p}</span>                            
                         })}
                 {portionCount > portionNumber &&
-                    <button onClick={() =>{setportionNumber(portionNumber + 1 )}}>NEXT</button> }
+                    <button onClick={() =>{setportionNumber(portionNumber + 1 )}}>{next}</button> }
                     
     </div>
 }

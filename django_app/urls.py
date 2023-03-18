@@ -32,5 +32,7 @@ urlpatterns = [
 
     re_path(route=r'^deliveryandpaymenttype/$', view=views.deliverypayment, name="deliverypayment"),
 
+    re_path(route=r'^managerorder/$', view=views.managerorder, name="managerorder"),
+
     
 ]

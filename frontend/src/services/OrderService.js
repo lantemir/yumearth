@@ -11,8 +11,5 @@ export default class OrderService {
             // .then(response => response.data.accessToken)
     }
 
-    static async logout(){
-        return $api.post('/logout')
-            // .then(response => response.data.accessToken)
-    }
+    
 }

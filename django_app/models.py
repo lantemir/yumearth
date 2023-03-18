@@ -211,7 +211,7 @@ class OrderStatus(models.Model):
         verbose_name_plural = 'Статусы заказа'
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.pk } {self.title}'
 
 
 class PaymentMethod(models.Model):

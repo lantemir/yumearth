@@ -13,7 +13,7 @@ from rest_framework import permissions #повторно вызвался
 
 # Create your views here.
 
-#пароль менеджера manager Temir777@
+
 
 
 def index(request):
@@ -38,9 +38,59 @@ def isstaff(request):
     except Exception as error:
         print(error)
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(http_method_names=["POST", "GET"])
+@permission_classes([IsAuthenticated])
+def managerorder(request):
+    try:
+
+
+        if request.user.is_staff:
+            print (request.user.is_staff)
+            if request.method == "GET":
+
+    
+                page = int(request.GET.get("currentPage", 1 ))
+                limit = int(request.GET.get("pageSize", 3))
+
+                print("currentPage")
+                print(page)
+
+                print("pageSize")
+                print(limit)
+            
+
+                ord_listid =  models.OrderProduct.objects.values_list('order_id', flat=True).distinct().order_by('order_id')
+
+                ord_list = models.Order.objects.filter(id__in=ord_listid).order_by('-id')
+
+                print(ord_list)
+
+                for order in ord_list:
+                    print(order.order_status )
+                    # print(f"Order ID: {order.pk}, Order Date: {order.total_price}")
+
+
+                # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+
+                # print(serialized_obj)
+
+                serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+                paginator_obj = Paginator(serialized_obj, limit)
+                current_page = paginator_obj.get_page(page).object_list
+                # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+                # paginator_obj = Paginator(serialized_obj, limit)
+                # current_page = paginator_obj.get_page(page).object_list
+
+                return Response( data={"managerorders": current_page, "x_total_count": len(ord_list)  }, status=status.HTTP_200_OK)
+
         
+        return Response( data={"managerorders": "not Staff" }, status=status.HTTP_423_LOCKED)
 
-
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(http_method_names=["POST"])

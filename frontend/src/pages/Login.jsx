@@ -7,6 +7,15 @@ import "../css/pages_style/LoginStyle.css";
 // import Slider from './Slider';
 import { Link, NavLink } from 'react-router-dom';
 import {requestLogin} from '../redux/auth-reducer';
+import { Redirect } from 'react-router-dom';
+
+
+
+// if (isLoggedIn && isStaff) {
+//     return <Redirect to='/admin/' />;
+//   } else if (isLoggedIn) {
+//     return <Redirect to='/dashboard/' />;
+//   }
 
 function Login() {
 
@@ -18,12 +27,26 @@ function Login() {
     const navigate = useNavigate();
 
 
+    // #пароль менеджера manager Temir777@
+
+
     useEffect(() => {
         if (store.isAuth) {   
+
+            console.log(store.isStaff)
             
-            console.log("store.isAuth")
-            console.log(store.isAuth)
-            navigate("/");
+            // console.log("store.isAuth")
+            // console.log(store.isAuth)
+            // navigate("/");
+            if(store.isStaff){ 
+                navigate("/manager");
+                console.log("useEffect navigate(/manager);")
+            }
+            else{
+                navigate("/");
+                console.log("useEffect navigate(/);")
+                console.log(store.isStaff)
+            }
         }
       }, [store.isAuth]);
 
@@ -42,8 +65,22 @@ function Login() {
    }
 
    if(store.isAuth){
-       navigate("/");
+
+    console.log(store.isStaff)
+
+        if(store.isStaff){
+            navigate("/manager");
+            console.log("store.isAuth navigate(/manager);")
+        }
+        else{
+            navigate("/");
+            console.log("store.isAuth  navigate(/);")
+            console.log(store.isStaff)
+        }
+
+       
    }
+   
 
     return (
         <bases.Base1>
