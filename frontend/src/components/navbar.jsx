@@ -18,7 +18,7 @@ const Navbar1 = ()=>  {
   const basketStore = useSelector(state => state.GetBasketStore)
 
   useEffect ( () => {
-
+    
 },[basketStore.totalcount])
   
   useEffect ( () => {
@@ -58,7 +58,7 @@ const Navbar1 = ()=>  {
           <li ><Link  to="/" className="nav-links"><i className="fa-solid fa-house-user"></i>Главная</Link></li>
           <li ><Link  to="/sweets" className="nav-links"><i className="fa-solid fa-candy-cane"></i>Сладости</Link></li>
           <li ><Link  to="/about" className="nav-links"><i className="fa-solid fa-circle-info"></i>О нас</Link></li>
-          <li ><Link  to="#" className="nav-links"><i className="fa-solid fa-address-book"></i>Контакты</Link></li>
+          <li ><Link  to="/contact" className="nav-links"><i className="fa-solid fa-address-book"></i>Контакты</Link></li>
           <li ><Link  to="/basket" className="nav-links"><i className="fa-sharp fa-solid fa-basket-shopping"></i>Корзина: <span>{basketStore.totalcount}</span> тг.</Link></li>
         
 

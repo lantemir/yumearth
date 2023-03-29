@@ -1,0 +1,51 @@
+
+
+
+  .thank-you-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .thank-you-container  h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .thank-you-container  .order-number {
+    font-weight: bold;
+    color: #07c00e;
+  }
+  
+  .thank-you-container  p {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #777;
+  }
+
+  
+.continue-shopping-button {
+    background-color: #03b550;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .continue-shopping-button:hover {
+    background-color: #039336;
+    cursor: pointer;
+  }

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.response import Response
+
 from django.core.paginator import Paginator
 from django_app import models
 from django_app import serializers
@@ -10,9 +11,10 @@ import json
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions #повторно вызвался
+from rest_framework.views import APIView
 
 # Create your views here.
-
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 
 
@@ -39,52 +41,129 @@ def isstaff(request):
         print(error)
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# @api_view(http_method_names=["POST"])
+# @permission_classes([IsAuthenticated , AllowAny])
+# def LogoutView(request):
+#     try:
+#         print('refresh_token')
+#         refresh_token = request.data["refresh"]
+
+#         return Response( data={"refresh_token": refresh_token }, status=status.HTTP_200_OK)
+
+#     except Exception as error:
+#         print(error)
+#         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class LogoutView(APIView):
+    # permission_classes = (IsAuthenticated)
+
+    def post(self, request, format=None):
+        try:
+            print('refresh_token')
+            refresh_token = request.data["refresh"]
+            print('refresh_token')
+            print(refresh_token)
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(http_method_names=["POST", "GET"])
 @permission_classes([IsAuthenticated])
-def managerorder(request):
+def managerorder(request, orderid = None):
     try:
 
 
         if request.user.is_staff:
-            print (request.user.is_staff)
+            orderid = request.GET.get('orderid')
+            
+            # print (request.user.is_staff)
             if request.method == "GET":
 
-    
-                page = int(request.GET.get("currentPage", 1 ))
-                limit = int(request.GET.get("pageSize", 3))
+                if orderid is not None:
+                    print('есть id заказа')
 
-                print("currentPage")
-                print(page)
+                    order_products =  models.OrderProduct.objects.filter(order=orderid)
 
-                print("pageSize")
-                print(limit)
-            
+                    # ord_listid =  models.OrderProduct.objects.values_list('order_id', flat=True).distinct().order_by('order_id')
 
-                ord_listid =  models.OrderProduct.objects.values_list('order_id', flat=True).distinct().order_by('order_id')
+                    # ord_list = models.Order.objects.filter(id__in=ord_listid).order_by('-id')
 
-                ord_list = models.Order.objects.filter(id__in=ord_listid).order_by('-id')
+                    serialized_obj = serializers.OrderProductCountSerializer(instance=order_products, many = True).data
 
-                print(ord_list)
+                    orderbyid = models.Order.objects.get(pk = orderid)
+                    serialized_orderbyid = serializers.OrderSerializer(instance=orderbyid).data
 
-                for order in ord_list:
-                    print(order.order_status )
-                    # print(f"Order ID: {order.pk}, Order Date: {order.total_price}")
+                    # print("order_products")
+                    # print(order_products)
+                    # for order_product in order_products:
+                    #     print(order_product.product)
+
+                    return Response( data={"managerorder": serialized_obj, "orderbyid": serialized_orderbyid }, status=status.HTTP_200_OK)
+                    
+
+                else:    
+                    page = int(request.GET.get("currentPage", 1 ))
+                    limit = int(request.GET.get("pageSize", 3))
+
+                    print("currentPage")
+                    print(page)
+
+                    print("pageSize")
+                    print(limit)
+                
+
+                    ord_listid =  models.OrderProduct.objects.values_list('order_id', flat=True).distinct().order_by('order_id')
+
+                    ord_list = models.Order.objects.filter(id__in=ord_listid).order_by('-id')
+
+                    print(ord_list)
+
+                    for order in ord_list:
+                        print(order.order_status )
+                        # print(f"Order ID: {order.pk}, Order Date: {order.total_price}")
 
 
-                # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+                    # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
 
-                # print(serialized_obj)
+                    # print(serialized_obj)
 
-                serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
-                paginator_obj = Paginator(serialized_obj, limit)
-                current_page = paginator_obj.get_page(page).object_list
-                # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
-                # paginator_obj = Paginator(serialized_obj, limit)
-                # current_page = paginator_obj.get_page(page).object_list
+                    serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+                    paginator_obj = Paginator(serialized_obj, limit)
+                    current_page = paginator_obj.get_page(page).object_list
+                    # serialized_obj = serializers.OrderSerializer(instance=ord_list, many = True).data
+                    # paginator_obj = Paginator(serialized_obj, limit)
+                    # current_page = paginator_obj.get_page(page).object_list
 
-                return Response( data={"managerorders": current_page, "x_total_count": len(ord_list)  }, status=status.HTTP_200_OK)
+                    return Response( data={"managerorders": current_page, "x_total_count": len(ord_list)  }, status=status.HTTP_200_OK)
 
+            if request.method == "POST":
+                
+                data = json.loads(request.body)
+                statusid = int(data.get('statusid'))                
+                status_obj = models.OrderStatus.objects.get(pk = statusid )
+                orderid = data.get('orderid')
+                adres = data.get('adres')
+                note = data.get('note')
+                
+                
+
+                order_obj = models.Order.objects.get(pk = orderid)
+
+                order_obj.notes = note
+                order_obj.shipping_address = adres
+                order_obj.order_status = status_obj
+
+                order_obj.save()
+
+                serialized_obj = serializers.OrderSerializer(instance = order_obj).data
+
+                
+
+                return Response( data={"managerorderbyid": serialized_obj, "statusid": statusid }, status=status.HTTP_200_OK)
         
         return Response( data={"managerorders": "not Staff" }, status=status.HTTP_423_LOCKED)
 
@@ -208,7 +287,7 @@ def orders(request):
 
             # print(orders)
 
-            return Response( data={"orders": products }, status=status.HTTP_200_OK)
+            return Response( data={"orders": products, "orderid": str(order.pk)   }, status=status.HTTP_200_OK)
 
     except Exception as error:
         print(error)
@@ -228,6 +307,20 @@ def deliverypayment(request):
             return Response( data={"delivery": deliverySerialized_obj, "payment": paymentSerialized_obj }, status=status.HTTP_200_OK)
 
 
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(http_method_names=["GET", "POST"])
+def getallstatus(request):
+    try:
+        if request.method == "GET":
+            orderstatus = models.OrderStatus.objects.all()
+            orderstatusserialized = serializers.OrderStatusSerializer(instance=orderstatus, many = True).data
+
+            return Response( data={"orderstatus": orderstatusserialized}, status=status.HTTP_200_OK)
+    
     except Exception as error:
         print(error)
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)

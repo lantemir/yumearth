@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as bases from '../components/bases';
 import "../css/pages_style/OrderStyle.css";
-import {newOrder, getDeliveryAndPaymentType } from '../redux/basket-reducer';
+import {newOrder, getDeliveryAndPaymentType, clearBasket } from '../redux/basket-reducer';
 // import Slider from './Slider';
 import { Link, NavLink } from 'react-router-dom';
+
 
 
 function Order() {
@@ -14,8 +15,8 @@ function Order() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [adres, setAdres] = useState('');
 
-    const [payOption, setpayOption] = useState(0);
-    const [deliveryOption, setDeliveryOption] = useState(0);
+    const [payOption, setpayOption] = useState();
+    const [deliveryOption, setDeliveryOption] = useState();
 
     // const payoptions = ['Наличными', 'Кредитная карта'];
 
@@ -41,7 +42,9 @@ function Order() {
     const makeOrder =(e) => {
 
         e.preventDefault();
-         newOrder(dispatch, basketProduct , phoneNumber , adres, payOption, deliveryOption, store.isAuth , totalcount)
+         newOrder(dispatch, basketProduct , phoneNumber , adres, payOption, deliveryOption, store.isAuth , totalcount);
+         clearBasket(dispatch);
+         navigate("/orderresult");
     }
 
 

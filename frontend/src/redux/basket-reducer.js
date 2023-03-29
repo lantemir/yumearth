@@ -6,6 +6,7 @@ export const GET_PRODUCT_TOTALCOUNT = "GET_PRODUCT_TOTALCOUNT";
 export const CLEAR_BASKET = "CLEAR_BASKET";
 export const GET_DELIVARY_TYPE = "GET_DELIVARY_TYPE";
 export const GET_PAYMENT_TYPE = "GET_PAYMENT_TYPE";
+export const GET_ORDER_NUMBER = "GET_ORDER_NUMBER";
 
 
 
@@ -14,7 +15,8 @@ let initialState = {
     totalcount: 0,
     basketProduct:[],
     deliveryType:[],
-    paymentType: [],    
+    paymentType: [], 
+    orderNumber: '',    // продолжить
   };
 
 
@@ -32,6 +34,8 @@ export function GetBasketReducer(state = initialState, action = null) {
                 return {...state, deliveryType: action.payload}
         case GET_PAYMENT_TYPE:
                 return {...state, paymentType: action.payload}
+        case GET_ORDER_NUMBER:
+            return {...state, orderNumber: action.payload}
         default:
             return state
     }
@@ -111,18 +115,22 @@ export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, pa
             orders = await OrderService.setOrder(data);
         }
         else{
-            console.log("asdaqwer")
+            console.log("Order with out user")
             orders = await axios.post('/api/orders/', data)
         }
         
         
 
         // const orders = await axios.post('/api/orders/', data)
-
+        dispatch({type: GET_ORDER_NUMBER, payload: orders.data.orderid})
 
         console.log("orders")
-        console.log(orders)
+        console.log(orders.data)
 
     }
     
+}
+
+export const getOrderNumber = () => {
+
 }

@@ -20,6 +20,10 @@ import Basket from './pages/Basket';
 import Cabinet from './pages/Cabinet';
 import Order from './pages/Order';
 import Manager from './pages/Manager';
+import ManagerOrder from './pages/ManagerOrder';
+import ManagerEdit from './pages/ManagerEdit';
+import OrderResult from './pages/OrderResult';
+import Contact from './pages/Contact';
 
 
 
@@ -56,9 +60,14 @@ const  App = () => {
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/cabinet" element={<Cabinet/>}></Route>
       <Route path="/basket" element={<Basket/>}></Route>
+      <Route path="/orderresult" element={<OrderResult/>}></Route>
       <Route path="/order" element={<Order/>}></Route>
+      <Route path='/managerorder/:id/:statusId' element={<ManagerOrder/>}></Route>
+      <Route path='/manageredit/:id' element={<ManagerEdit/>}></Route>
       <Route path='/manager' element={<Manager/>}></Route>
+      <Route path='/contact' element={<Contact/>}></Route>
       
+            
 
 
     </Routes>

@@ -70,7 +70,8 @@ export const AddToBasket = (dispatch, count, product_id) => {
 
         let index = basketFromLocalStorage.findIndex(item => item.product_id ===product_id)
 
-        console.log(index)
+        
+        
         const old = basketFromLocalStorage[index]
         if(index === -1){
 
@@ -104,8 +105,7 @@ export const AddToBasket = (dispatch, count, product_id) => {
         //     }
         // })
 
-        
-
+          
         
 
         

@@ -42,7 +42,7 @@ class ProductCategory(models.Model):
         verbose_name_plural = 'Категории товара'
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.pk}{self.title}'
 
 # для картинок когда с фронта
 # def upload_to (instance, filename):
@@ -233,7 +233,7 @@ class PaymentMethod(models.Model):
         verbose_name_plural = 'Способ оплаты'
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.pk } {self.title}'
 
 
 
@@ -257,7 +257,7 @@ class DeliveryMethod(models.Model):
         verbose_name_plural = 'Способ доставки'
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.pk } {self.title}'
 
 
 
@@ -369,6 +369,9 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count_product = models.IntegerField()
+
+def __str__(self) -> str:
+        return f'{self.order} {self.product} {self.count_product}'
 
 
 

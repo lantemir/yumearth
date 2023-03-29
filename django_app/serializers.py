@@ -6,29 +6,31 @@ class TextModelSerializer(serializers.ModelSerializer):
         model = models.TextModel
         fields = "__all__"
 
-class  ProductsModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Product
-        fields = "__all__"
+
 
 class ProductCategoryModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductCategory
         fields = "__all__"
 
+class  ProductsModelSerializer(serializers.ModelSerializer):
 
+    
+    class Meta:
+        model = models.Product
+        fields = "__all__"
 
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentMethod
-        fields = "__all__"
+        fields = ('id', 'title')
 
 
 class DeliveryMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DeliveryMethod
-        fields = "__all__"
+        fields = ('id', 'title')
 
 
 class OrderStatusSerializer(serializers.ModelSerializer):
@@ -52,6 +54,8 @@ class OrderSerializer(serializers.ModelSerializer):
     # order_statuss = models.OrderStatus.objects.all()
     # order_status = OrderStatusSerializer(order_statuss, many=True) 
     order_status = OrderStatusSerializer()  
+    payment_method = PaymentMethodSerializer()
+    delivery_method = DeliveryMethodSerializer()
 
     class Meta:
         model = models.Order
@@ -92,8 +96,17 @@ class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderProduct
         fields = "__all__"
+        # fields = ('order', 'product', 'count_product')
 
+class OrderProductCountSerializer(serializers.ModelSerializer):
+    product = ProductsModelSerializer()
+   
+    order = OrderSerializer()
 
+    class Meta:
+        model = models.OrderProduct
+        # fields = "__all__"
+        fields = ('product', 'count_product', 'order',)
 
 
 

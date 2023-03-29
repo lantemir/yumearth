@@ -107,11 +107,29 @@ export const requestLogin = async (userName, password, dispatch) => {
 
 export const logout = async (dispatch ) => {  
     try{
-       // const response = await AuthService.logout();
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        dispatch(setAuth(false));
-        //dispatch(setUser({}))
+        await axios.post('/api/logout/',{
+            refresh: localStorage.getItem('refreshToken')
+        }).then(response => {
+            console.log("logout")
+            console.log(response)
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            dispatch(setAuth(false));
+            dispatch(setStaff(false));  
+        }).catch(error => {
+            console.log(error)
+        })
+
+
+        // const response = await AuthService.logout();
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('refreshToken');
+        // dispatch(setAuth(false));
+        // dispatch(setStaff(false));   
+        // console.log(response)   
+        
+       
+        
     } catch (e) {
         console.log(e.response?.data?.message)
     }

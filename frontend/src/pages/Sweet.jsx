@@ -6,7 +6,7 @@ import Slider from './Slider';
 import { useDispatch, useSelector } from 'react-redux';
 import "./SweetStyle.css";
 import { getProduct, AddToBasket, checkCount } from "../redux/product-reducer";
-
+import { getFromLocalStorage} from '../redux/basket-reducer';
 
 
 function Sweet() {
@@ -20,6 +20,8 @@ function Sweet() {
 
   const[countProduct, setCountProduct] = useState(1)
 
+  const [showCartPopup, setShowCartPopup] = useState(false); //animation
+
 
   useEffect(() => {
     console.log("useEffect setCountProduct")
@@ -32,12 +34,18 @@ function Sweet() {
     checkCount(dispatch,id)
   }, [])
 
-  const checkStore = () => {
-    console.log(prodStore)
-  }
+  // const checkStore = () => {
+  //   console.log(prodStore)
+  // }
 
   const addBasket = () => {
     AddToBasket(dispatch, countProduct, id )
+    setShowCartPopup(true);
+    setTimeout(() => {
+      setShowCartPopup(false);
+    }, 2500);
+
+    getFromLocalStorage(dispatch);
   }
 
   return (
@@ -59,9 +67,15 @@ function Sweet() {
           </form>
           <p>{product.description}</p>
           <button onClick={addBasket}>В корзину</button>
-          <button onClick={checkStore}>checkStore</button>
+          {/* <button onClick={checkStore}>checkStore</button> */}
         </div>
 
+
+        {showCartPopup && (
+        <div className="cart-popup">
+          <div className="cart-popup-message">Товар добавлен в корзину</div>
+        </div>
+      )}
 
 
       </div>

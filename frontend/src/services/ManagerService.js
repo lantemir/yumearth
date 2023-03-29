@@ -13,5 +13,19 @@ export default class ManagerService {
             // .then(response => response.data.accessToken)
     }
 
+    static async getManagerOrderDetail(orderid) {
+        const resp = await $api.get('/api/managerorder/', {
+            params:{orderid: orderid}
+        })
+        return resp
+    }
+
+    
+    static async updateManagerOrderDetail(data) {
+        const resp = await $api.post('/api/managerorder/', data)
+        return resp
+    }
+
+
     
 }
