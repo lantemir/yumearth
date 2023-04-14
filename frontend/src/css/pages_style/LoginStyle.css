@@ -1,4 +1,4 @@
-.login{
+/* .login{
   
     width: 85%;
     margin: auto;
@@ -17,9 +17,94 @@
     
    
   
-}
+} */
 
-.loginForm form{ 
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 40px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .loginForm h2 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .loginForm p {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #777;
+  }
+  
+  .loginForm ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .loginForm li {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #777;
+  }
+  
+
+.loginForm form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  
+  .loginForm label {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .loginForm input,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .loginForm button[type="submit"] {
+    background-color: #006f00;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .loginForm button[ type="submit"]:hover {
+    background-color: #008638;
+    cursor: pointer;
+  }
+
+
+
+/* .loginForm form{ 
     width: 85%;
     margin: auto;
 
@@ -50,16 +135,16 @@
     border: none;
     outline:none;
     /* border-color: green;  */
-    background-color: rgb(46, 156, 196);
+    /* background-color: rgb(46, 156, 196);
     color: white;  
     margin-left: 50%;
     transform:translate(-50%, -50%);
-    margin-top: 50px;
+    margin-top: 50px; */
     
     
-}
+/* } */ 
 
-@media screen and (max-width: 850px){
+/* @media screen and (max-width: 850px){
 
     .loginForm form{ 
         width: 100%;
@@ -83,4 +168,4 @@
 
    
 
-}
+} */

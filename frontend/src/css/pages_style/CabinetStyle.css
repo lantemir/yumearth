@@ -1,5 +1,5 @@
 .cabinet{
-    border: 1px solid red;
+    
     width: 85%;
     margin: auto;
 }
@@ -25,6 +25,26 @@
 .profilInfo form input {
     margin-right: 20px;
 }
+
+.profilInfo form button {
+    background-color: #0a8569;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.profilInfo form button:hover {
+    background-color: #035a40;
+    cursor: pointer;
+}
+
+
+
+
 
 .adresInput{
     width: 90%;
@@ -72,6 +92,26 @@ justify-content: space-around;
     font-weight: bold;
 }
 
+.cabinetExit{
+   
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+.cabinetExit button{
+    background-color: #0a8569;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+   cursor: pointer;
+}
+
+
+
 
 @media screen and (max-width: 850px){
 
@@ -88,3 +128,7 @@ justify-content: space-around;
    
 
 }
+
+
+
+

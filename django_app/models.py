@@ -172,6 +172,16 @@ class Profile(models.Model):
         max_length=500,
     )
 
+    is_confirmed_email = models.BooleanField(
+        default=False,
+
+        verbose_name="имэйл подтверждён?",
+        help_text='<small class="text-muted">имэйл подтверждён</small><hr><br>',
+    )
+
+
+
+
     class Meta:
         app_label = 'auth'
         ordering =('user',)

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { getManagerOrderDetail } from '../redux/manager-reducer';
 
 import "../css/pages_style/ManagerEditStyle.css";
 import { Footer1 } from '../components/footers';
 import ManagerHeader from '../components/managerHeader';
 
 function ManagerEdit() {
+    const { id } = useParams();
+    const dispatch = useDispatch();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

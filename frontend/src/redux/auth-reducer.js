@@ -69,7 +69,9 @@ export const requestLogin = async (userName, password, dispatch) => {
  
 
     try{      
-        const response = await AuthService.login(userName, password);    
+        // const response = await AuthService.login(userName, password);  
+        
+        const response = await axios.post('/api/token/', {"username": userName, "password": password})
         localStorage.setItem('token', response.data.access);      
         localStorage.setItem('refreshToken', response.data.refresh);    
         
@@ -158,5 +160,26 @@ export const checkAuth = async (dispatch) => {
         console.log(e.response)
     } finally {
         
+    }
+}
+
+export const forgetenPassword = async(userName, forgetenEmail,dispatch) => {
+
+    try {
+
+        const data = {
+            forgetenEmail:forgetenEmail,
+            userName:userName
+        }
+
+        const response = await axios.post('/api/emailconfirmation/', data ) 
+
+        console.log("forgetenPassword")
+        console.log(forgetenEmail)
+        console.log(userName)
+        console.log(response.data)
+
+    } catch(e) {
+
     }
 }

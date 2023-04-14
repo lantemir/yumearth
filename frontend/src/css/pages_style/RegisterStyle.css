@@ -1,0 +1,86 @@
+.registr-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 40px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.registr-container h2 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #555;
+}
+
+.registr-container p {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #777;
+}
+
+.registr-container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.registr-container li {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #777;
+}
+
+.registr-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.registr-container label {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.registr-container input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.registr-container button[type="submit"] {
+  background-color: #006f00;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.registr-container  button[type="submit"]:hover {
+  background-color: #008638;
+  cursor: pointer;
+}
+
+.errorshow{
+
+  color:  rgb(10, 156, 139);
+ }

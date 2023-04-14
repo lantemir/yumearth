@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django_app import models
+from django.contrib.auth.models import User
+
 
 class TextModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -92,7 +94,15 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 
+    
+
+    
+
+
+
+
 class OrderProductSerializer(serializers.ModelSerializer):
+    product = ProductsModelSerializer()
     class Meta:
         model = models.OrderProduct
         fields = "__all__"
@@ -108,6 +118,27 @@ class OrderProductCountSerializer(serializers.ModelSerializer):
         # fields = "__all__"
         fields = ('product', 'count_product', 'order',)
 
+class UserSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = User
+        # fields = "__all__"
+        fields = ('id', 'email', 'username', 'first_name', 'last_name')
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = models.Profile
+        fields = "__all__"
 
 
 
+
+
+class OrderCabinetSerializer(serializers.ModelSerializer):
+    orderproduct_set = OrderProductSerializer(many=True)
+    class Meta:
+        model = models.Order
+        fields = "__all__"
+        # fields = ('order', 'product', 'count_product')

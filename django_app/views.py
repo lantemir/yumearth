@@ -12,9 +12,35 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions #повторно вызвался
 from rest_framework.views import APIView
+from django.contrib.auth.models import User 
 
 # Create your views here.
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+# почта
+import smtplib
+import os
+import environ
+from email.mime.text import MIMEText
+
+# redis
+from . import tasks
+
+#paswordGenerate
+import random
+import string
+
+#confirm email
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+from django.http import HttpResponseRedirect
+
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 
 
 
@@ -54,6 +80,40 @@ def isstaff(request):
 #         print(error)
 #         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+@api_view(http_method_names=["POST", "GET"])
+@permission_classes([AllowAny])
+def registration(request):
+    if request.method == "POST":
+        username = request.data.get("username", None)
+        password = request.data.get("password", None)
+
+        # print(f"\nGET {request.GET}")
+        # print(f"POST {request.POST}")
+        # print(f"data {request.data}")
+        # print(f"FILES {request.FILES}\n")
+
+        print(username)
+        print(password)
+
+        if username and password:
+
+            if User.objects.filter(username = username).exists():
+
+                return Response( {"errormessage": "пользователь уже существует" }, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                User.objects.create_user(
+                    username=username,                    
+                    password=password
+                )
+
+                return Response( {"user":  username},  status=status.HTTP_201_CREATED)
+        else:
+
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+       
+    else:
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 class LogoutView(APIView):
     # permission_classes = (IsAuthenticated)
@@ -192,10 +252,12 @@ def orders(request):
 
 
 
-            user_id = None
+            user = None
 
             if(request.user.pk):
-                user_id = request.user.pk
+                user = User.objects.get(pk = request.user.pk) 
+                print("user_id:")
+                print(user)
 
             order_status =  models.OrderStatus.objects.get(title='В ожидании')
 
@@ -203,21 +265,9 @@ def orders(request):
             delivery_option = models.DeliveryMethod.objects.get(pk = delivery_option_id)
 
 
-            # print('status')
-            # print(order_status.pk)
+                   
 
-
-            # user_id = request.user.pk
-
-            # print('user_id')
-            # print(user_id)
-
-            # print('data')
-            # print(data)
-
-            
-
-            order = models.Order.objects.create(author = user_id, order_status = order_status, shipping_address = adres, 
+            order = models.Order.objects.create(author = user, order_status = order_status, shipping_address = adres, 
              payment_method = pay_option,  phone_number =  phone_number, delivery_method = delivery_option, total_price= totalcount)
 
             print(order)
@@ -494,3 +544,379 @@ def chat(request, sms_id = None):
     except Exception as error:
         print(error)
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(http_method_names=["POST", "GET", "PUT"])
+@permission_classes([IsAuthenticated])
+def getuser(request): 
+    try:
+        if request.user.pk:
+
+            print(request.user.pk)
+
+            obj_user = models.Profile.objects.get(user = request.user.pk)
+
+            serialized_obj = serializers.ProfileSerializer(instance = obj_user).data
+
+            return Response( data={"user": serialized_obj }, status=status.HTTP_200_OK)
+
+        else: 
+            return Response( data={"user": "no user" }, status=status.HTTP_200_OK)
+            
+
+    except Exception as error:
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(http_method_names=["POST"])
+@permission_classes([AllowAny])
+def mysendmail(request):
+
+    data = json.loads(request.body)
+    user_name = data.get('userName')
+    forgeten_email = data.get('forgetenEmail')
+    print(user_name)
+    print(forgeten_email)
+
+    
+    if User.objects.filter(username = user_name).exists():
+
+        if User.objects.filter(email = forgeten_email).exists():
+
+                   
+
+            charecter = string.ascii_letters + string.digits + string.punctuation
+            newpassword = ''.join(random.choice(charecter) for i in range(8))
+
+            message= "Ваш новый пароль: " +  newpassword
+            sender = "emailsenderinform@gmail.com"   
+
+           
+
+            env = environ.Env()
+            environ.Env.read_env()
+            password = env('EMAIL_PASSWORD_GM') #код от приложения
+
+            
+            
+
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
+
+            try:
+                server.login(sender, password)
+                msg = MIMEText(message)
+                msg["Subject"] = "Авторизация"
+                server.sendmail(sender, 'temiros@mail.ru', msg.as_string() )
+                
+
+                return Response( data={"emailMessage": "The message was sent successfuly!" }, status=status.HTTP_200_OK)
+            except Exception as _ex:
+
+                return Response( data={"error": "f{_ex} Check your login or password please!"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+
+
+
+
+
+
+
+        
+        return Response( data={"emailMessage": "Не заполнили почту в личном кабинете, либо не верный имэйл. Создайте новый логин!" }, status=status.HTTP_200_OK)
+
+    return Response( data={"emailMessage": "Данного пользователя не существует" }, status=status.HTTP_200_OK)
+
+
+
+
+@api_view(http_method_names=["POST"])
+@permission_classes([IsAuthenticated])
+def change_adres(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # user_name = data.get('userName')
+        adres = data.get('adres')
+
+        profile = models.Profile.objects.get(user= request.user)
+        profile.delivary_adres = adres
+        profile.save()
+
+        
+
+        return Response( data={"adres": adres }, status=status.HTTP_200_OK)
+
+
+
+
+@api_view(http_method_names=["POST"])
+@permission_classes([IsAuthenticated])
+def email_confirmation_view(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        # user_name = data.get('userName')
+        email = data.get('userEmail')
+
+        user = request.user     
+
+        if user:
+
+            user.email = email
+            user.save()
+            
+
+            print (user.email)
+
+            token_generator = PasswordResetTokenGenerator()
+            
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = token_generator.make_token(user)
+            confirmation_url = f'http://localhost:8000/api/email-confirmation/{uid}/{token}/'
+
+            html_body = f'<p>Пройдите по ссылке <a href="{confirmation_url}"> yumearth </a> для подтверждения почты.</p>'
+
+            env = environ.Env()
+            environ.Env.read_env()
+            password = env('EMAIL_PASSWORD_GM') #код от приложения
+
+            # message = 'test'
+            sender = "emailsenderinform@gmail.com" 
+
+
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
+
+            try:
+                server.login(sender, password)
+                msg = MIMEText(html_body, 'html')
+                msg["Subject"] = "Ссылка для подтверждение почты на сайте yumearth.kz"
+                server.sendmail(sender, user.email, msg.as_string() )
+                
+
+                return Response( data={"emailMessage": "Письмо подтверждения отправлено на почту" }, status=status.HTTP_200_OK)
+            except Exception as error:
+                print(error)
+                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            
+
+            
+
+        else:
+            return JsonResponse({'success': False, 'error': 'User not found'})
+
+        # if request.user.email:
+        #     print(request.user.email)
+
+        #     request.user.email = email
+        #     return JsonResponse({'success': 'есть имэйл'})
+        # else:
+
+        #     request.user.email = email
+        #     request.user.save()
+             
+        #     print(request.user.email)
+    
+        
+      
+
+        
+
+        return JsonResponse({'success': 'ок'})
+        
+
+        # user = User.objects.get(email=email)
+        
+
+
+@api_view(http_method_names=["POST", "GET"])
+@permission_classes([AllowAny])
+def email_confirmation_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+
+        print('uid')
+        print(uid)
+        user = User.objects.get(pk=uid)
+        print(user)
+
+        print('token')
+        print(token)
+
+        try:
+            token_generator = PasswordResetTokenGenerator()
+
+            result = token_generator.check_token(user, token)
+            print('result')
+            print(result)
+            if result:
+
+                profile = models.Profile.objects.get(user= user)
+                profile.is_confirmed_email = True
+                profile.save()
+
+                return HttpResponseRedirect('http://localhost:3000/')
+
+                return JsonResponse({'success': 'Your email address has been confirmed!'})
+
+            else: 
+                return JsonResponse({'success': 'Your email address has not been confirmed!'})
+        except Exception as error:
+          print(error)
+          return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+       
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+        return JsonResponse({'success': False, 'error': 'Invalid confirmation link'})
+        
+    
+    # if user and PasswordResetTokenGenerator.check_token(user, token):
+    #     print("email_confirmation_confirm")
+    #     print(user)
+
+    #     return JsonResponse({'success': 'Your email address has been confirmed!'})
+    # else:
+    #     return JsonResponse({'success': False, 'error': 'Invalid confirmation link'})
+
+    
+    
+# реализация подтверждения пароля:
+
+
+# from django.core.mail import send_mail
+# from django.contrib.auth.tokens import default_token_generator
+# from django.utils.encoding import force_bytes
+# from django.utils.http import urlsafe_base64_encode
+# from django.views.decorators.csrf import csrf_exempt
+# from django.http import JsonResponse
+
+# @csrf_exempt
+# def email_confirmation_view(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         user = User.objects.get(email=email)
+#         if user:
+#             token_generator = default_token_generator()
+#             uid = urlsafe_base64_encode(force_bytes(user.pk))
+#             token = token_generator.make_token(user)
+#             confirmation_url = f'http://localhost:8000/api/email-confirmation/{uid}/{token}/'
+
+#             send_mail(
+#                 'Confirm your email address',
+#                 f'Click this link to confirm your email address: {confirmation_url}',
+#                 'noreply@example.com',
+#                 [email],
+#                 fail_silently=False,
+#             )
+
+#             return JsonResponse({'success': True})
+#         else:
+#             return JsonResponse({'success': False, 'error': 'User not found'})
+
+
+# урл
+
+# from django.urls import path
+# from .views import email_confirmation_confirm
+
+# urlpatterns = [
+#     path('api/email-confirmation/<uidb64>/<token>/', email_confirmation_confirm, name='email_confirmation_confirm'),
+# ]
+
+
+# дальше
+
+# from django.contrib.auth import get_user_model
+# from django.contrib.auth.tokens import default_token_generator
+# from django.utils.encoding import force_text
+# from django.utils.http import urlsafe_base64_decode
+# from django.http import HttpResponse
+
+# User = get_user_model()
+
+# def email_confirmation_confirm(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+
+#     if user and default_token_generator.check_token(user, token):
+#         user.email_confirmed = True
+#         user.save()
+
+#         return HttpResponse('Your email address has been confirmed!')
+#     else:
+#         return HttpResponse('Invalid confirmation link')
+
+# завершение реализации подтверждения пароля
+
+    
+
+# Отправка как html письмо
+
+# import smtplib
+# from email.mime.text import MIMEText
+# from email.mime.multipart import MIMEMultipart
+
+# # Create the email message
+# sender = 'your_email@example.com'
+# receiver = user.email
+# subject = 'Confirm your email address'
+# confirmation_url = f'http://localhost:8000/api/email-confirmation/{uid}/{token}/'
+# message = MIMEMultipart('alternative')
+# message['Subject'] = subject
+# message['From'] = sender
+# message['To'] = receiver
+# html_body = f'<p>Please click <a href="{confirmation_url}">here</a> to confirm your email address.</p>'
+# message.attach(MIMEText(html_body, 'html'))
+
+# # Send the email using SMTP
+# with smtplib.SMTP('smtp.gmail.com', 587) as server:
+#     server.starttls()
+#     server.login(sender, 'your_email_password')
+#     server.sendmail(sender, receiver, message.as_string())
+       
+
+@api_view(http_method_names=["POST"])
+@permission_classes([AllowAny])
+def celerytasks(request):
+
+    tasks.mysendmailcellery.delay()
+    return Response( data={"emailMessage": "The message was sent by cellery successfuly!" }, status=status.HTTP_200_OK)
+
+
+
+@api_view(http_method_names=["POST", "GET"])
+@permission_classes([IsAuthenticated])
+def get_order_by_user(request):
+    if request.method == 'GET':
+        
+        user = User.objects.get(pk=request.user.pk)
+        orders = models.Order.objects.filter(author=user).prefetch_related('orderproduct_set__product').order_by('-id')
+
+
+        # Пример sql:
+        # SELECT "orders"."id", "orders"."author_id"
+        # FROM "orders"
+        # WHERE "orders"."author_id" = user_id
+
+        # SELECT "order_product"."id", "order_product"."order_id", "order_product"."product_id", "order_product"."count_product",
+        #     "product"."id", "product"."title"
+        # FROM "order_product"
+        # LEFT OUTER JOIN "product" ON ("order_product"."product_id" = "product"."id")
+        # WHERE "order_product"."order_id" IN (list_of_order_ids)
+
+        print(orders)
+
+        # serialized_obj = serializers.OrderSerializer(instance=orders, many = True).data
+
+        serialized_obj = serializers.OrderCabinetSerializer(instance=orders, many=True).data
+
+        
+
+        return Response( data={"orders": serialized_obj }, status=status.HTTP_200_OK)

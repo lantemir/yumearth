@@ -9,6 +9,9 @@ import { GetProductReducer} from '../redux/product-reducer'
 import  GetAuthReducer from '../redux/auth-reducer';
 import { GetBasketReducer } from '../redux/basket-reducer';
 import GetManagerReducer from '../redux/manager-reducer';
+import GetCabinetReducer from '../redux/cabinet-reducer';
+
+
 
 
 
@@ -19,6 +22,7 @@ const globalReducer = combineReducers({
   GetAuthStore: GetAuthReducer,
   GetBasketStore: GetBasketReducer,
   GetManagerStore: GetManagerReducer,
+  GetCabinetStore :GetCabinetReducer,
 })
 
 const initialState  = {

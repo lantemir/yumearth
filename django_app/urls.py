@@ -19,7 +19,7 @@ urlpatterns = [
 
   
 
-    
+    path('registration/', views.registration, name='registration' ),
 
     path('isstaff/', view=views.isstaff, name="isstaff"),
     
@@ -44,5 +44,19 @@ urlpatterns = [
 
     re_path(route=r'^managerorder/$', view=views.managerorder, name="managerorder"),
 
+    re_path(route=r'^getuser/$', view=views.getuser, name="getuser"),
+
+    re_path( route=r'^changeadres/$', view = views.change_adres, name='change_adres'),
+
+    re_path( route=r'^getorderbyuser/$', view = views.get_order_by_user, name='getorderbyuser'),
     
+
+    re_path(route=r'^mysendmail/$', view=views.mysendmail, name="mysendmail"),
+    re_path(route=r'^celerytasks/$', view=views.celerytasks, name="celerytasks"),
+
+    re_path( route=r'^emailconfirmation/$', view = views.email_confirmation_view, name='email_confirmation_view'),
+    
+
+    path('email-confirmation/<uidb64>/<token>/', view = views.email_confirmation_confirm, name='email_confirmation_confirm'),    
 ]
+

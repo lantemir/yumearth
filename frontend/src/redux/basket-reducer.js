@@ -79,6 +79,9 @@ export const getFromLocalStorage = async(dispatch) => {
 export const clearBasket = (dispatch) => {
     localStorage.removeItem("product");
     dispatch({type: CLEAR_BASKET, payload: []})
+    dispatch({type: GET_PRODUCT_TOTALCOUNT, payload: 0})
+
+    
 }
 
 
@@ -112,6 +115,7 @@ export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, pa
         console.log(isAuth)
 
         if (isAuth){
+            console.log("bascetReducer isAuth: true")
             orders = await OrderService.setOrder(data);
         }
         else{
@@ -126,6 +130,7 @@ export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, pa
 
         console.log("orders")
         console.log(orders.data)
+        dispatch({type: GET_PRODUCT_TOTALCOUNT, payload: 0})
 
     }
     

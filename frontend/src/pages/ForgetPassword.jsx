@@ -6,7 +6,7 @@ import * as bases from '../components/bases';
 import "../css/pages_style/LoginStyle.css";
 // import Slider from './Slider';
 import { Link, NavLink } from 'react-router-dom';
-import {requestLogin} from '../redux/auth-reducer';
+import {forgetenPassword} from '../redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
 
 
@@ -17,10 +17,11 @@ import { Redirect } from 'react-router-dom';
 //     return <Redirect to='/dashboard/' />;
 //   }
 
-function Login() {
+function ForgetPassword() {
 
     const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [forgetenEmail, setForgetenEmail] = useState('');
+    const [valid, setValid] = useState(false);
 
     const store = useSelector(state => state.GetAuthStore)
     const dispatch = useDispatch()
@@ -29,30 +30,10 @@ function Login() {
 
     // #пароль менеджера manager Temir777@
     // #пароль пользователя testuser Temir777@
-    // temiros@mail.ru
 
 
 
-    useEffect(() => {
-        if (store.isAuth) {   
-
-            console.log(store.isStaff)
-            
-            // console.log("store.isAuth")
-            // console.log(store.isAuth)
-            // navigate("/");
-            if(store.isStaff){ 
-                navigate("/manager");
-                console.log("useEffect navigate(/manager);")
-            }
-            else{
-                navigate("/");
-                console.log("useEffect navigate(/);")
-                console.log(store.isStaff)
-            }
-        }
-      }, [store.isAuth]);
-
+    
     
 
     const showState = (e) => {
@@ -60,10 +41,25 @@ function Login() {
         console.log(store)
     }
 
-    const onLogin = (e) => {
+    const onForgetPassword = (e) => {
         e.preventDefault();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isValid = emailRegex.test(forgetenEmail);
 
-        requestLogin(userName, password, dispatch);
+        console.log(isValid)
+        
+
+        if(isValid){            
+            setValid(false)
+            // asd@asd.xc
+            forgetenPassword(userName, forgetenEmail, dispatch);
+        }
+        else{
+            setValid(true)
+        }
+
+
+        
       
    }
 
@@ -92,14 +88,15 @@ function Login() {
               
                 
                 <div className='loginForm'>
-                <h2>Вход в личный кабинет</h2>
+                <h2>Забыл пароль</h2>
                     <form >
 
                         <label>Логин: </label>
                         <input onChange={ (e) => setUserName(e.target.value)}  type='text' value={userName} placeholder='логин' />
-                        <label>Пароль: </label>
-                        <input onChange={ (e) => setPassword(e.target.value)}  type='password'  value={password} placeholder='пароль' />
-                        <button type="submit" onClick={onLogin}>Войти</button>
+                        <label>Email: </label>
+                        <input onChange={ (e) => setForgetenEmail(e.target.value)}  type='email'  value={forgetenEmail} placeholder='email' />
+                        {valid ? <p>неверная почта</p> : <p></p>}
+                        <button type="submit" onClick={onForgetPassword}>Отправить</button>
                         { store.errorMessage && <p>{store.errorMessage}</p>}
                         {/* <button onClick={showState}>showState</button> */}
 
@@ -111,7 +108,7 @@ function Login() {
 
                     <Link to={`/register/`}> Регистрация</Link>
                     <br/> 
-                    <Link to={`/forgetpassword/`}> Забыл пароль</Link>  
+                    <Link to={`/login/`}> Вспомнил пароль</Link>  
                     
 
 
@@ -126,4 +123,4 @@ function Login() {
     )
 }
 
-export default Login
+export default ForgetPassword

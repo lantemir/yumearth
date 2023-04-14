@@ -114,7 +114,7 @@ function Order() {
                         
                         <button onClick={makeOrder} >Заказать</button>
                         
-                        <button onClick={showState}>showState</button>
+                        {/* <button onClick={showState}>showState</button> */}
 
 
                     </form>

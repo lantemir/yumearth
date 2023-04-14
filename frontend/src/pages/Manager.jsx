@@ -63,7 +63,7 @@ function Manager() {
 
               <p>{item.created_datetime.slice(0, 19)}</p>
 
-              <Link to={`/manageredit/${item.id}`}> <i class="fa-solid fa-pen-to-square"></i></Link>
+              <Link to={`/managerorder/${item.id}/${item.order_status.id}`}> <i class="fa-solid fa-pen-to-square"></i></Link>
 
               
               

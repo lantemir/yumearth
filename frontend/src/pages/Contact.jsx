@@ -16,7 +16,7 @@ function Contact() {
   </ul>
 
   <div className="map-container">    
-  <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7f0f535303d1625b1c5365fb3c2e562a21dac8f15dab060dfaacf8118ca1c9cf&amp;source=constructor" width="1023" height="408" frameborder="0"></iframe>
+  <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7f0f535303d1625b1c5365fb3c2e562a21dac8f15dab060dfaacf8118ca1c9cf&amp;source=constructor" width="1023" height="408" frameBorder="0"></iframe>
   </div>
 
   

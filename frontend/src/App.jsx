@@ -24,6 +24,8 @@ import ManagerOrder from './pages/ManagerOrder';
 import ManagerEdit from './pages/ManagerEdit';
 import OrderResult from './pages/OrderResult';
 import Contact from './pages/Contact';
+import Register from './pages/Register';
+import ForgetPassword from './pages/ForgetPassword';
 
 
 
@@ -66,6 +68,11 @@ const  App = () => {
       <Route path='/manageredit/:id' element={<ManagerEdit/>}></Route>
       <Route path='/manager' element={<Manager/>}></Route>
       <Route path='/contact' element={<Contact/>}></Route>
+      <Route path='/register' element={<Register/>}></Route>
+      <Route path='/forgetpassword' element={<ForgetPassword/>}></Route>
+
+
+      
       
             
 

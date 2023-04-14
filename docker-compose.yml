@@ -1,0 +1,52 @@
+# version: '3.9'
+
+# services:
+#   redis:
+#     image: redis
+#     restart: always
+#     # ports:
+#     #   - "6379:6379"
+
+#   yumearth:
+#     restart: always
+#     build:
+#       context: ./yumearth
+#       ports:
+#         "8000:8000"
+#       command: ["python3", "./manage.py", "runserver", "0.0.0.0:8000"]
+
+#       worker: 
+#         restart: always
+#         build:
+#           context: ./yumearth
+#         command: ['celery', '--workdir=./', '-A', 'django_app', 'worker' ]
+#   # worker:
+#   #   build: .
+#   #   command: celery -A django_settings worker -l info
+#   #   volumes:
+#   #     - .:/code
+#   #   depends_on:
+#   #     - redis
+
+
+
+version: '3.9'
+
+services:
+  redis:
+    image: redis
+    restart: always
+
+  yumearth:
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+    command: ["python3", "./manage.py", "runserver", "0.0.0.0:8000"]
+    restart: always
+
+  worker:
+    build:
+      context: ./
+    command: ['celery', '--workdir=./', '-A', 'django_app', 'worker' ]
+    restart: always

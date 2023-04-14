@@ -62,7 +62,7 @@ const Navbar1 = ()=>  {
           <li ><Link  to="/basket" className="nav-links"><i className="fa-sharp fa-solid fa-basket-shopping"></i>Корзина: <span>{basketStore.totalcount}</span> тг.</Link></li>
         
 
-          { store.isAuth ? <li><a  href="/cabinet" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Личный кабинет</a></li>
+          { store.isAuth ? <li><Link to="/cabinet" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Личный кабинет</Link></li>
           : <li><Link  to="/login" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Войти</Link></li>}
 
           {/* <li><a  href="/cabinet" className="nav-links-mobile"><i className="fa-regular fa-user"></i>Личный кабинет</a></li> */}
