@@ -1,4 +1,4 @@
-.sweet{
+/* .sweet{
     
     width: 85%;
     margin: auto;
@@ -14,7 +14,7 @@
 
 
 .sweetContent{
-    /* width: 40%; */
+  
     padding: 10%;
 
    
@@ -42,7 +42,7 @@
     border-radius: 20px;
     border: none;
     outline:none;
-    /* border-color: green;  */
+    
     background-color: rgb(46, 156, 196);
     color: white;  
     margin-left: 50%;
@@ -50,7 +50,108 @@
     margin-top: 50px;
     
     
+} */
+
+
+
+
+
+
+/* Responsive CSS */
+@media only screen and (max-width: 768px) {
+  .sweet {
+    flex-direction: column;
+  }
+  
+  .sweetImg {
+    margin-bottom: 20px;
+  }
+  
+  .sweet form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sweet button {
+    width: 100%;
+  }
 }
+
+/* Default CSS */
+.sweet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sweetImg {
+  width: 40%;
+  margin-right: 20px;
+}
+
+.sweetImg img {
+  width: 100%;
+  height: auto;
+}
+
+.sweetContent {
+  flex-grow: 1;
+}
+
+.sweet h1 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.sweet form {
+  display: flex;
+  align-items: center;
+}
+
+.sweet label {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.sweet input {
+  width: 60px;
+  margin-right: 10px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.sweet button {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sweet .bgGreen {
+  background-color: #4CAF50;
+}
+
+
+
+
+
+
+
+
+
 
 
 /* анимация на поп ап */
@@ -88,11 +189,11 @@
 
 
 
-
+/* 
 @media screen and (max-width: 850px){
 
     .sweet{
         flex-direction: column;
     }
 
-}
+} */

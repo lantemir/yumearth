@@ -78,7 +78,7 @@ const  App = () => {
 
 
     </Routes>
-    <button onClick={(e)=>{console.log(store)}}>app</button>
+    {/* <button onClick={(e)=>{console.log(store)}}>app</button> */}
    </BrowserRouter>
 
    

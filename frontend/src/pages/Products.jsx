@@ -32,18 +32,7 @@ function Products(props) {
         getAllProducts(dispatch, currentPage, pageSize, categoryid)    
       }
 
-    const checkStore = () => {
-        console.log(productStore)
-    }
-
-    const testGetProd = () => {
-        getAllProducts(dispatch, currentPage, pageSize, categoryid);
-    }
-
-    const testprops = () => {
-        console.log(props.category.selectedCategory)
-    }
-
+    
 
     return (
         <div className='productWrapper'>
@@ -87,11 +76,7 @@ function Products(props) {
 
                 <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onPageChanged={onPageChanged} />
             </div>
-            <div>
-                {/* <button onClick={testGetProd}>testGetProd</button> */}
-                <button onClick={checkStore}>checkStore</button>
-                <button onClick={testprops}>testprops</button>
-            </div>
+           
         </div>
     )
 }

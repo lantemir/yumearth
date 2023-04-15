@@ -66,7 +66,7 @@ function Sweet() {
             
           </form>
           <p>{product.description}</p>
-          <button onClick={addBasket}>В корзину</button>
+          <button onClick={addBasket}>добавить в корзину</button>
           {/* <button onClick={checkStore}>checkStore</button> */}
         </div>
 

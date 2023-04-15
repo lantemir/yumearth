@@ -14,7 +14,7 @@ export const GET_CATEGORYES_PRODUCTS = "GET_CATEGORYES_PRODUCTS";
 
 let initialState = {
   products: [],
-  pageSize: 3,
+  pageSize: 6,
   totalCount: 0,
   currentPage: 1,
   categoryid: 0,

@@ -137,6 +137,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class OrderCabinetSerializer(serializers.ModelSerializer):
+    order_status = OrderStatusSerializer()  
     orderproduct_set = OrderProductSerializer(many=True)
     class Meta:
         model = models.Order

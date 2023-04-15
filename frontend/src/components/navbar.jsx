@@ -42,7 +42,7 @@ const Navbar1 = ()=>  {
       <div className="NavbarBackground">
       <nav className="NavbarItems">
         <h1 className="logo">
-        YUMEARTH 
+           <Link to="/">YUMEARTH</Link> 
         </h1>
         <div className="menu-icons" onClick={handleClick}>
             <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
@@ -56,7 +56,7 @@ const Navbar1 = ()=>  {
           })} */}
 
           <li ><Link  to="/" className="nav-links"><i className="fa-solid fa-house-user"></i>Главная</Link></li>
-          <li ><Link  to="/sweets" className="nav-links"><i className="fa-solid fa-candy-cane"></i>Сладости</Link></li>
+          <li ><Link  to="/sweets" className="nav-links"><i className="fa-solid fa-candy-cane"></i>Вся продукция</Link></li>
           <li ><Link  to="/about" className="nav-links"><i className="fa-solid fa-circle-info"></i>О нас</Link></li>
           <li ><Link  to="/contact" className="nav-links"><i className="fa-solid fa-address-book"></i>Контакты</Link></li>
           <li ><Link  to="/basket" className="nav-links"><i className="fa-sharp fa-solid fa-basket-shopping"></i>Корзина: <span>{basketStore.totalcount}</span> тг.</Link></li>

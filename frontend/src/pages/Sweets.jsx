@@ -68,7 +68,7 @@ function Sweets() {
                 <h1>cладости</h1>
 
                 <ul>
-                    {/* {categories && categories[0].title} */}
+                    
                     {categories && categories.map(item => {
                         return (
                             <li onClick={() => requestCurrentCategory(dispatch, item.id)} key={item.id}> <i className="fa-solid fa-arrow-down-wide-short"></i> {item.title}</li>
@@ -81,7 +81,7 @@ function Sweets() {
                 <div className='productWrapper'>
 
 
-                    {console.log("render prod")}
+                    
 
                     {products && products.map(item => {
                         return (

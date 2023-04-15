@@ -21,8 +21,10 @@ export default class CabinetService {
         return resp            
     }
 
-    static async getOrdersbyUserId(){
-        const resp = await $api.get('/api/getorderbyuser/')
+    static async getOrderbyUserId(currentPage, pageSize){
+        const resp = await $api.get('/api/getorderbyuser/', {
+            params:{currentPage: currentPage, pageSize: pageSize}
+        })
         return resp
     }
 

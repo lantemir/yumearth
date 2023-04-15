@@ -8,7 +8,7 @@
     align-items: center;
     font-size: 1.2rem;
     padding: 0 30px;
-    /* background-color: #222; */
+    
 
     background-color: rgba(34, 34, 34, 0.782);
     
@@ -18,18 +18,7 @@
     border-radius: 13px;
     margin: auto; 
     
-    /* position: fixed;
-
-    top: 10%;
-left: 50%;
-transform: translate(-50%, -50%); */
-
-
-    /* top: 20px;
-    left: 0px;
-    
-    /* transform: translate(-50%); */
-
+   
 
 }
 .NavbarBackground{
@@ -42,7 +31,7 @@ transform: translate(-50%, -50%); */
     
 }
 
-.logo{
+.logo a{
     color: #fff;
     justify-self: start;
     cursor: pointer;
@@ -132,7 +121,7 @@ transform: translate(-50%, -50%); */
         left: -110%;
         align-items: stretch;
         padding: 80px 0 30px 30px;
-        /* padding-left: 30px; */
+        
         margin:0; 
         z-index: 1;
         transition: all 0.3s ease-in-out;

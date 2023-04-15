@@ -73,7 +73,11 @@ function Basket() {
 
                     <div className='buttonLine'>
                        <button onClick={clearingBasket}>Очистить корзину</button>
-                       <Link to = {`/order/`}> <button  className='bgGreen'>Продолжить</button></Link>
+
+                       {basketProduct.length > 0 && (
+                        <Link to = {`/order/`}> <button  className='bgGreen'>Продолжить</button></Link>
+                       )}
+                       
                         
                         <p className='sumOrder'>Итого: {totalcount} тенге</p>
                     </div>

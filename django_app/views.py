@@ -895,6 +895,11 @@ def celerytasks(request):
 @permission_classes([IsAuthenticated])
 def get_order_by_user(request):
     if request.method == 'GET':
+
+        page = int(request.GET.get("currentPage", 1))
+        limit = int(request.GET.get("pageSize", 1))
+
+
         
         user = User.objects.get(pk=request.user.pk)
         orders = models.Order.objects.filter(author=user).prefetch_related('orderproduct_set__product').order_by('-id')
@@ -911,12 +916,13 @@ def get_order_by_user(request):
         # LEFT OUTER JOIN "product" ON ("order_product"."product_id" = "product"."id")
         # WHERE "order_product"."order_id" IN (list_of_order_ids)
 
-        print(orders)
+        
 
         # serialized_obj = serializers.OrderSerializer(instance=orders, many = True).data
 
         serialized_obj = serializers.OrderCabinetSerializer(instance=orders, many=True).data
 
-        
+        paginator_obj = Paginator(serialized_obj, limit)
+        current_page = paginator_obj.get_page(page).object_list
 
-        return Response( data={"orders": serialized_obj }, status=status.HTTP_200_OK)
+        return Response( data={"orders": current_page, "x_total_count": len(orders) }, status=status.HTTP_200_OK)

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUser, sendingEmail, sendingEmailRedis, savingEmailWithConfirmation ,changeAdres, getOrderById } from '../redux/cabinet-reducer';
+import { getUser, sendingEmail, sendingEmailRedis, savingEmailWithConfirmation ,changeAdres, getOrdersByUserId } from '../redux/cabinet-reducer';
 import { checkEmails } from '../functions/checkEmail';
 import {  useNavigate } from "react-router-dom";
 import { logout } from '../redux/auth-reducer';
 import * as bases from '../components/bases';
 import "../css/pages_style/CabinetStyle.css";
+import Paginator from '../components/Paginator/Paginator';
 
 // import ReactDomServer from 'react-dom/server'
 
@@ -21,7 +22,7 @@ function Cabinet() {
     const [showMessageForUser, setShowMessageForUser] = useState('');
 
     const cabinetStore = useSelector(state => state.GetCabinetStore)
-    const { user } = cabinetStore
+    const { user , oredersByUser, pageSize, totalCount, currentPage } = cabinetStore
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -45,13 +46,17 @@ function Cabinet() {
         //     }
         // };
         getUser(dispatch);        
-        
+        getOrdersByUserId(dispatch, currentPage, pageSize)
      
     }, [])
 
+    const onPageChanged = (currentPage) => {
+        getOrdersByUserId(dispatch, currentPage, pageSize)
+    }
+
     const testRequest = (e) => {
         e.preventDefault();
-        getOrderById()
+        getOrdersByUserId()
     }
 
     const changingAdres = (e) => {
@@ -94,7 +99,7 @@ function Cabinet() {
 
     const testState = (e) => {
         e.preventDefault();
-        console.log(user.user.email)
+        console.log(cabinetStore)
     }
 
     const gologout = (e) => {
@@ -144,70 +149,51 @@ function Cabinet() {
 
                
                 
-                <button onClick={sendingEmail}>sendingEmail</button>
+                {/* <button onClick={sendingEmail}>sendingEmail</button>
                 <button onClick={sendingEmailRedis}>sendingEmailRedis</button>
 
                 <button onClick={testRequest}>testRequest ORDERS</button>
-                <button onClick={testState}>testState</button>
+                <button onClick={testState}>testState</button> */}
 
-                <h3>Заказ №: 1</h3>
+                
+                {oredersByUser.orders && oredersByUser.orders.map(item => {
+                    const totalPrice = item.orderproduct_set.reduce((acc, itemProd )=> acc + (itemProd.product.price * itemProd.count_product), 0)
+                     return(
+                        <div key={item.id} className='profilInfo'>
+                        <h3>Заказ №: {item.id} </h3>
+                        <h4>Статус: {item.order_status.title}</h4>
+                        
+                        {item.orderproduct_set.map(itemProd => {
+                            return(
+                                <div key={itemProd.product.id} className='orderLine'>
+        
+                                <div className='orderLineimg'>
+                                    <img src={itemProd.product.image} />
+                                </div>
+                                <div className='orderLineDescription'>
+                                    <span>{itemProd.product.title} </span>
+                                    <span>{itemProd.product.price} тг</span>
+                                    <span>{itemProd.count_product} шт</span>
+                                </div>
+                            </div>
+                            )
+                            
+                        }) }
 
-                <div className='profilInfo'>
-                    <div className='orderLine'>
-
-                        <div className='orderLineimg'>
-                            <img src='https://images.satu.kz/188470933_w640_h640_organicheskie-ledentsy-yumearth.jpg' />
+                            
+        
+                          
+                            <p className='sumOrder'>Итого: {totalPrice} тенге</p>
                         </div>
-                        <div className='orderLineDescription'>
-                            <span>title1 </span>
-                            <span>5000 тг</span>
-                            <span>3 шт</span>
-                        </div>
-                    </div>
+                     ) 
+                })}
 
-                    <div className='orderLine'>
-
-                        <div className='orderLineimg'>
-                            <img src='https://images.satu.kz/188470933_w640_h640_organicheskie-ledentsy-yumearth.jpg' />
-                        </div>
-                        <div className='orderLineDescription'>
-                            <span>title1 </span>
-                            <span>5000 тг</span>
-                            <span>3 шт</span>
-                        </div>
-
-                    </div>
-                    <p className='sumOrder'>Итого: 25000 тенге</p>
+                <div className='paginatorProducts'>                    
+                  <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onPageChanged={onPageChanged} />
                 </div>
 
-                <h3>Заказ №: 2</h3>
+               
 
-                <div className='profilInfo'>
-                    <div className='orderLine'>
-
-                        <div className='orderLineimg'>
-                            <img src='https://images.satu.kz/188470933_w640_h640_organicheskie-ledentsy-yumearth.jpg' />
-                        </div>
-                        <div className='orderLineDescription'>
-                            <span>title1 </span>
-                            <span>5000 тг</span>
-                            <span>3 шт</span>
-
-                        </div>
-                    </div>
-
-                    <div className='orderLine'>
-
-                        <div className='orderLineimg'>
-                            <img src='https://images.satu.kz/188470933_w640_h640_organicheskie-ledentsy-yumearth.jpg' />
-                        </div>
-                        <div className='orderLineDescription'>
-                            <span>title1 </span>
-                            <span>5000 тг</span>
-                            <span>3 шт</span>
-                        </div>
-                    </div>
-                </div>
 
 
                 {showCartPopup && (
