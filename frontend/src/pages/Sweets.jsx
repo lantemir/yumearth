@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-
+import { Helmet } from 'react-helmet';
 import * as bases from '../components/bases';
 import Products from './Products';
 import Slider from './Slider';
@@ -10,6 +10,7 @@ import { requestCurrentCategory, getAllProducts } from '../redux/products-reduce
 import Paginator from '../components/Paginator/Paginator';
 import { Link } from 'react-router-dom';
 import "./SweetsStyle.css";
+
 
 function Sweets() {
     const dispatch = useDispatch();
@@ -61,7 +62,15 @@ function Sweets() {
     return (
 
         <bases.Base1>
+            
             <Slider />
+            <Helmet>
+                <title>Сладости Алматы конфеты от YumEarth доступная цена | Интернет-магазин yumearth.kz</title>
+                <meta name="description" content="В интернет-магазине yumearth представлен широкий выбор сладостей YumEarth! ★ Лучшее качество по самым приятным ценам! Доставка по Алматы. 
+                Оформите заказ online прямо на сайте yumearth.kz или по телефону: 87772288880!" />
+                <meta name="keywords" content="Органические леденцы YumEarth, YumEarth алматы, yumearth.kz" />
+                <link rel="canonical" href="https://yumearth.kz" />
+            </Helmet>
             <div className='sweets'>
                 {console.log("render sweets")}
 

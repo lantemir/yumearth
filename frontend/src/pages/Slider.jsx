@@ -7,7 +7,7 @@ function Slider() {
     <div className='slider'>
         
         <img src={picc}/>
-        <h1>леденцы YUMEARTH в Алматы</h1>
+        
         
     </div>
   )

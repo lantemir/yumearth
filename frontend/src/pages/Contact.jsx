@@ -8,6 +8,14 @@ function Contact() {
   return (
     <bases.Base1>
         <div className="contact-container">
+
+        <Helmet>
+                <title>конфеты от YumEarth Контактная информация. | Интернет-магазин yumearth.kz</title>
+                <meta name="description" content="В интернет-магазине yumearth представлен широкий выбор сладостей YumEarth! ★ Лучшее качество по самым приятным ценам! Доставка по Алматы. 
+                Оформите заказ online прямо на сайте yumearth.kz или по телефону: 87772288880!" />
+                <meta name="keywords" content="Органические леденцы YumEarth, YumEarth алматы, yumearth.kz" />
+                <link rel="canonical" href="https://yumearth.kz" />
+            </Helmet>
   <h1>Контакты</h1>
   <p>Свяжитесь с нами.</p>
   <ul>

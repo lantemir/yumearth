@@ -9,6 +9,8 @@ import Products from './Products';
 import { GetAllSms } from '../redux/message-reducer';
 import picc from '../static/frontimage/picMain.png';
 
+import { Helmet } from 'react-helmet';
+
 // export const GET_ALL_MESSAGE_LOAD = "GET_ALL_MESSAGE_LOAD";
 // export const GET_ALL_MESSAGE_DATA = "GET_ALL_MESSAGE_DATA ";
 // export const GET_ALL_MESSAGE_ERROR = "GET_ALL_MESSAGE_ERROR";
@@ -66,9 +68,20 @@ export function Home() {
   return (
     <bases.Base1>
       <Slider />
+      <div className='home'>
+      <h1>леденцы YUMEARTH в Алматы</h1>
       <Products />
 
-      <div className='home'>
+      
+
+      <Helmet>
+        <title>YumEarth: купить товары бренда YumEarth доступная цена в Алматы, Казахстане | Интернет-магазин yumearth.kz</title>
+        <meta name="description" content="В интернет-магазине yumearth представлен широкий выбор товаров YumEarth! ★ Лучшее качество по самым приятным ценам! Доставка по Алматы. 
+        Оформите заказ online прямо на сайте yumearth.kz или по телефону: 87772288880!" />
+        <meta name="keywords" content="Органические леденцы YumEarth, YumEarth алматы, yumearth.kz" />
+        <link rel="canonical" href="https://yumearth.kz" />
+      </Helmet>
+        
         {/* <button onClick={getAllsmsRed} className='btn btn-lg btn-outline-danger'>Ok</button>
 
         <button onClick={checkStore} >get From State</button> */}
