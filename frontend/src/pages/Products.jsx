@@ -37,7 +37,7 @@ function Products(props) {
     return (
         <div className='productWrapper'>
 
-        {console.log("render prod")}
+        {/* {console.log("render prod")} */}
 
             {products && products.map(item => {
                 return (

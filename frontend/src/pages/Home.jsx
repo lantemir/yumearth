@@ -2,14 +2,15 @@ import axios from 'axios'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import * as bases from '../components/bases';
+import { Helmet } from 'react-helmet';
 import "./HomeStyle.css";
 import Slider from './Slider';
 import Products from './Products';
 
 import { GetAllSms } from '../redux/message-reducer';
 import picc from '../static/frontimage/picMain.png';
+import { Link, NavLink } from 'react-router-dom';
 
-import { Helmet } from 'react-helmet';
 
 // export const GET_ALL_MESSAGE_LOAD = "GET_ALL_MESSAGE_LOAD";
 // export const GET_ALL_MESSAGE_DATA = "GET_ALL_MESSAGE_DATA ";
@@ -69,13 +70,18 @@ export function Home() {
     <bases.Base1>
       <Slider />
       <div className='home'>
-      <h1>леденцы YUMEARTH в Алматы</h1>
+      <h1>сладости YumEarth Алматы</h1>
+      <div className='homelink'>
+        <Link to={`/sweets/`}> все сладости</Link>
+      </div>
+      
+      
       <Products />
 
       
 
       <Helmet>
-        <title>YumEarth: купить товары бренда YumEarth доступная цена в Алматы, Казахстане | Интернет-магазин yumearth.kz</title>
+        <title>YumEarth: купить сладости, мармелад, леденцы, конфеты YumEarth доступная цена в Алматы, Казахстане | Интернет-магазин yumearth.kz</title>
         <meta name="description" content="В интернет-магазине yumearth представлен широкий выбор товаров YumEarth! ★ Лучшее качество по самым приятным ценам! Доставка по Алматы. 
         Оформите заказ online прямо на сайте yumearth.kz или по телефону: 87772288880!" />
         <meta name="keywords" content="Органические леденцы YumEarth, YumEarth алматы, yumearth.kz" />

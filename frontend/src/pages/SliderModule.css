@@ -6,19 +6,15 @@
     height: auto;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .37);
     text-align: center;
-    padding-bottom: 20px;
+    
     
     
 }
 
-.slider h1{
-    width: 100%;
-    
-    color: #00B1BE;
-}
+
 
 .slider img{
-    width: 70%;
+    width: 100%;
     
    
     

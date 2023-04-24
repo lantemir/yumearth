@@ -143,3 +143,10 @@ class OrderCabinetSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = "__all__"
         # fields = ('order', 'product', 'count_product')
+
+
+
+class  SiteMapModelSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = models.Product
+        fields = ['id']

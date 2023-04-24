@@ -37,20 +37,19 @@ export const checkCount = (dispatch, product_id) => {
             dispatch({type: GET_PRODUCT_COUNT, payload: countFromLocalStorage})
          }
          else{
-            console.log("count: 1")
+          
             dispatch({type: GET_PRODUCT_COUNT, payload: 1})
          }
     }
     else{
-        console.log("count: 01")
+  
         dispatch({type: GET_PRODUCT_COUNT, payload: 1})
     }
 
 }
 
 export const AddToBasket = (dispatch, count, product_id) => {
-    console.log(count)
-    console.log(product_id)
+  
 
     let basketProd = {};
 
@@ -59,7 +58,7 @@ export const AddToBasket = (dispatch, count, product_id) => {
     basketProd.count = count
     basketProd.product_id = product_id
 
-    // console.log(basketProd)
+
 
     // localStorage.setItem('product', JSON.stringify(basketProd));     
     
@@ -111,15 +110,14 @@ export const AddToBasket = (dispatch, count, product_id) => {
         
     }
     else{
-        console.log('нету basketFromLocalStorage')
+       
 
         basketProductArr= [basketProd]
         dispatch({type: GET_PRODUCT_COUNT, payload: 1})
         localStorage.setItem('product', JSON.stringify( basketProductArr));     
     }
 
-    // console.log("basketFromLocalStorage")
-    // console.log(basketFromLocalStorage)
+    
 
     
 
@@ -140,7 +138,7 @@ export const getProduct = async(dispatch, productid) => {
 
     
 
-    console.log(response.data.product)
+
 }
 
 export default GetProductReducer;

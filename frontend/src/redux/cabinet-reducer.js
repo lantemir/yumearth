@@ -42,7 +42,7 @@ export const getUser = async (dispatch) => {
     try{
         const response = await CabinetService.getUserProfile();
 
-        console.log(response.data.user);
+  
         dispatch({type: CABINET_SET_USER, payload: response.data.user})
 
        
@@ -60,7 +60,7 @@ export const savingEmailWithConfirmation = async (userEmail ) => {
             userEmail: userEmail            
         }
         const response = await CabinetService.confirmEmail(data)
-        console.log(response)
+
     }
     catch (e) {
         console.log(e)
@@ -79,7 +79,7 @@ export const sendingEmail = async () => {
         }
 
         const response = await axios.post('/api/mysendmail/', data);
-        console.log(response)
+  
     }
     catch (e) {
         console.log(e)
@@ -89,7 +89,7 @@ export const sendingEmail = async () => {
 export const sendingEmailRedis = async () => {
     try{
         const response = await axios.post('/api/celerytasks/');
-        console.log(response)
+     
     }
     catch (e) {
         console.log(e)
@@ -104,7 +104,7 @@ export const changeAdres = async (adres) => {
 
     try{
         const response = await CabinetService.changeAdres(data) ;
-        console.log(response)
+   
     }
     catch (e) {
         console.log(e)
@@ -115,9 +115,7 @@ export const getOrdersByUserId = async(dispatch, currentPage, pageSize)=>{
 
     try{
         const response = await CabinetService.getOrderbyUserId(currentPage, pageSize) ;
-        console.log(response.data)
-        console.log(response.data.orders)
-        console.log(response.data.x_total_count)
+    
         
         dispatch({type: CABINET_ORDERS_BY_USER, payload: response.data})
 

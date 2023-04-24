@@ -4,6 +4,7 @@ import "./navbarStyle.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getFromLocalStorage } from '../redux/basket-reducer';
+import logo from '../static/frontimage/yumearthlogo.png';
 
 
 
@@ -41,9 +42,10 @@ const Navbar1 = ()=>  {
     return (
       <div className="NavbarBackground">
       <nav className="NavbarItems">
-        <h1 className="logo">
-           <Link to="/">YUMEARTH</Link> 
-        </h1>
+        <div className="logo">
+          
+           <Link to="/"><img src={logo} /></Link> 
+        </div>
         <div className="menu-icons" onClick={handleClick}>
             <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
         </div>

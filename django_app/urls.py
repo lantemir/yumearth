@@ -56,6 +56,7 @@ urlpatterns = [
 
     re_path( route=r'^emailconfirmation/$', view = views.email_confirmation_view, name='email_confirmation_view'),
     
+    re_path( route=r'^sitemaps/$', view = views.sitemaps, name='sitemaps'),
 
     path('email-confirmation/<uidb64>/<token>/', view = views.email_confirmation_confirm, name='email_confirmation_confirm'),    
 ]

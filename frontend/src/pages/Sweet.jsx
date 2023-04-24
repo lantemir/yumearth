@@ -24,7 +24,7 @@ function Sweet() {
 
 
   useEffect(() => {
-    console.log("useEffect setCountProduct")
+    
     setCountProduct(count)
   }, [count])
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, sendingEmail, sendingEmailRedis, savingEmailWithConfirmation ,changeAdres, getOrdersByUserId } from '../redux/cabinet-reducer';
 import { checkEmails } from '../functions/checkEmail';
 import {  useNavigate } from "react-router-dom";
-import { logout } from '../redux/auth-reducer';
+import { logout, checkManagerInCabinet } from '../redux/auth-reducer';
 import * as bases from '../components/bases';
 import "../css/pages_style/CabinetStyle.css";
 import Paginator from '../components/Paginator/Paginator';
@@ -22,13 +22,19 @@ function Cabinet() {
     const [showMessageForUser, setShowMessageForUser] = useState('');
 
     const cabinetStore = useSelector(state => state.GetCabinetStore)
+    
     const { user , oredersByUser, pageSize, totalCount, currentPage } = cabinetStore
+            
+    const store = useSelector(state => state.GetAuthStore)
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    
+
     useEffect(() => {
 
-        console.log("useEffectUser")
+      
         if(user && user.user ){
             setEmailState(user.user.email)
             setAdresState(user.delivary_adres)
@@ -38,6 +44,8 @@ function Cabinet() {
     }, [user])
 
 
+
+
     useEffect(() => {
 
         // const callback = () => {
@@ -45,10 +53,21 @@ function Cabinet() {
         //         setEmailState(user.user.email)
         //     }
         // };
+        checkManagerInCabinet(dispatch)
         getUser(dispatch);        
         getOrdersByUserId(dispatch, currentPage, pageSize)
      
     }, [])
+
+    if (store.isAuth) {  
+
+      
+        if(store.isStaff){ 
+            navigate("/manager");          
+        }
+       
+    }
+    
 
     const onPageChanged = (currentPage) => {
         getOrdersByUserId(dispatch, currentPage, pageSize)
@@ -87,14 +106,14 @@ function Cabinet() {
             showPopUp("ссылка подтверждения имэйла отправлена на почту")           
         }
         else{
-            console.log(checked)
+            
             showPopUp("неправильно написали имэйл")            
         }
 
 
         
 
-        console.log(checked)
+ 
     }
 
     const testState = (e) => {

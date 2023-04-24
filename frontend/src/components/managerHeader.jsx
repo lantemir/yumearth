@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {  useNavigate } from "react-router-dom";
 import "./managerHeaderStyle.css";
 import { logout } from '../redux/auth-reducer';
+import { generateSitemap } from '../functions/Sitemap';
 
 
 const ManagerHeader = () => {
@@ -29,6 +30,7 @@ const ManagerHeader = () => {
       <nav className='navManagerHeader' >
         <div className="logo">My App</div>
         <ul>
+          <li><button onClick={(e)=> generateSitemap(dispatch)}>siteMap</button></li>
           <li><button onClick={goBackPage}>назад</button></li>
           <li><button onClick={gologout}>выход</button></li>
           

@@ -31,10 +31,13 @@
     
 }
 
-.logo a{
+/* .logo a{
     color: #fff;
     justify-self: start;
     cursor: pointer;
+} */
+.logo img{
+    width: 150px;
 }
 
 .fa-react {

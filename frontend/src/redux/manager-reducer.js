@@ -14,6 +14,8 @@ export const GET_ALL_ORDER_STATUS = "GET_ALL_ORDER_STATUS";
 export const GET_ORDER_DETAIL = "GET_ORDER_DETAIL";
 export const GET_ORDER_BY_ID = "GET_ORDER_BY_ID";
 
+export const GET_SITE_MAP = "GET_SITE_MAP";
+
 let initialState = {
   orders: [],
   pageSize: 3,
@@ -24,6 +26,8 @@ let initialState = {
   orderwithproducts: [],
   allOrderStatus: [],
   orderbyid: {},
+
+  siteMap:"",
   
 };
 
@@ -46,7 +50,8 @@ export function GetManagerReducer(state = initialState, action = null) {
     
     case GET_ALL_ORDER_STATUS:
         return { ...state, load: false, allOrderStatus: action.payload}
-    
+    case GET_SITE_MAP:
+      return {...state, siteMap: action.payload}
     default:
       return state
 
@@ -64,7 +69,7 @@ export const getOrdersManager = async(dispatch, currentPage, pageSize) => {
         dispatch({type: GET_CURRENTPAGE_ORDERS, payload: currentPage})
         dispatch({type: GET_ALL_ORDERS_MANAGER, payload: response.data.managerorders })
         
-        console.log(response.data)
+       
 
     }catch(e){
         console.log(e.response.data.detail)
@@ -79,8 +84,7 @@ export const getManagerOrderDetail = async(dispatch, orderid) => {
     const response = await ManagerService.getManagerOrderDetail(orderid);
     const orderStatus = await axios.get('/api/getallstatus/');
 
-    console.log(response.data)
-    console.log(orderStatus.data)
+
 
     dispatch({type: GET_ALL_ORDER_STATUS, payload: orderStatus.data.orderstatus })
     dispatch({type: GET_ORDER_DETAIL, payload: response.data.managerorder})
@@ -104,10 +108,14 @@ export const updateManagerOrderDetail = async(dispatch, orderid, adres, note, st
 
     dispatch({type: GET_ORDER_BY_ID, payload: response.data.managerorderbyid})
 
-    console.log(response.data)
+
   }catch(e){
     console.log(e.response.data.detail)
   }
+}
+
+export const siteMapSet = (dispatch, sitemap) => {
+  dispatch({type: GET_SITE_MAP, payload: sitemap })
 }
 
 // export const updateManagerOrderDetailStatus = async(dispatch, statusid) => {

@@ -58,14 +58,14 @@ export const getProductCategory = async(dispatch) => {
 
   const response = await axios.get('/api/productcategory');
 
-  // console.log(response.data.category)
+  
 
   dispatch({type:GET_CATEGORYES_PRODUCTS, payload: response.data.category })
 
 }
 
 export const requestCurrentCategory = (dispatch, categoryid) => {
-  console.log(categoryid)
+
   dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
   
 }
@@ -74,8 +74,7 @@ export const requestCurrentCategory = (dispatch, categoryid) => {
 
 export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryid) => {
 
-  console.log("categoryid = ")
-  console.log(categoryid)
+  
     //  dispatch({type: GET_ALL_PRODUCTS_LOAD})
 
     // const config = {
@@ -97,7 +96,7 @@ export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryi
     
 
     
-    console.log(response.data )
+
     dispatch({type: GET_ALL_PRODUCTS_DATA, payload: response.data.List})  
 
     // dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})

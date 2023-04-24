@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Helmet } from 'react-helmet';
 import * as bases from '../components/bases';
 
 import "../css/pages_style/ContactStyle.css";

@@ -62,7 +62,7 @@ export const getFromLocalStorage = async(dispatch) => {
         const updateObjects = productDb.map(obj1 =>{
             const obj2 = basketFromLocalStorage.find(obj2 => obj1.id ===  parseInt(obj2.product_id));
 
-            console.log(obj2)
+        
             return obj2 ? {...obj1, count: parseInt(obj2.count)} : obj1;
         })
 
@@ -112,14 +112,14 @@ export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, pa
             totalcount: totalcount
         }   
 
-        console.log(isAuth)
+   
 
         if (isAuth){
-            console.log("bascetReducer isAuth: true")
+        
             orders = await OrderService.setOrder(data);
         }
         else{
-            console.log("Order with out user")
+    
             orders = await axios.post('/api/orders/', data)
         }
         
@@ -128,8 +128,8 @@ export const newOrder = async(dispatch,  basketProduct , phoneNumber , adres, pa
         // const orders = await axios.post('/api/orders/', data)
         dispatch({type: GET_ORDER_NUMBER, payload: orders.data.orderid})
 
-        console.log("orders")
-        console.log(orders.data)
+  
+
         dispatch({type: GET_PRODUCT_TOTALCOUNT, payload: 0})
 
     }

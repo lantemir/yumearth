@@ -39,6 +39,6 @@ export const   GetAllSms = async(dispatch) => {
     }
 
     const response = await axios(config)
-    console.log(response.data )
+
     dispatch({type: GET_ALL_MESSAGE_DATA, payload: response.data.List})        
   }

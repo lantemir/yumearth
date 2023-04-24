@@ -64,46 +64,28 @@ const setUser = (user) => ({type: SETUSER,  user})
 //     return response;
 // }
 
-export const requestLogin = async (userName, password, dispatch) => {  
+export const checkManagerInCabinet = async (dispatch) => {
+    const responseIsStaff = await AuthService.isStaff();
+    if (responseIsStaff.data.is_staff) {
+        dispatch(setStaff(true));
+    }
+}
 
- 
-
+export const requestLogin = async (userName, password, dispatch) => { 
     try{      
         // const response = await AuthService.login(userName, password);  
         
         const response = await axios.post('/api/token/', {"username": userName, "password": password})
         localStorage.setItem('token', response.data.access);      
-        localStorage.setItem('refreshToken', response.data.refresh);    
-        
+        localStorage.setItem('refreshToken', response.data.refresh);          
         
         const responseIsStaff = await AuthService.isStaff();
-
         if (responseIsStaff.data.is_staff) {
             dispatch(setStaff(true));
-            console.log(" dispatch(setStaff(true));")
-
         }
-
-        dispatch(setAuth(true));
-      
-        console.log("auth-reducer")
-        console.log(response);
-
-        console.log(responseIsStaff.data.is_staff);
-        // dispatch(setUser(response.data.user))
-
-        console.log("auth-reducer")
-        
-        
-
-        
-    } catch (e) {
-        // console.log(e)
-        console.log("asdasdasdasdasd")
+        dispatch(setAuth(true));        
+    } catch (e) {     
         dispatch(setError(e.response.data.detail))
-        console.log(e.response.data.detail)
-        console.log("asdasdasdasdasd")
-
     }
 }   
 
@@ -112,8 +94,7 @@ export const logout = async (dispatch ) => {
         await axios.post('/api/logout/',{
             refresh: localStorage.getItem('refreshToken')
         }).then(response => {
-            console.log("logout")
-            console.log(response)
+         
             localStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
             dispatch(setAuth(false));
@@ -150,13 +131,11 @@ export const checkAuth = async (dispatch) => {
             "refresh": localStorage.getItem('refreshToken')
         } ) 
 
-        console.log("checkAuth")
-        console.log(response)
+     
         localStorage.setItem('token', response.data.access);      
         localStorage.setItem('refreshToken', response.data.refresh);  
         dispatch(setAuth(true));        
-    } catch (e) {
-        console.log("ошибка checkAuth")
+    } catch (e) {        
         console.log(e.response)
     } finally {
         
@@ -174,10 +153,7 @@ export const forgetenPassword = async(userName, forgetenEmail,dispatch) => {
 
         const response = await axios.post('/api/emailconfirmation/', data ) 
 
-        console.log("forgetenPassword")
-        console.log(forgetenEmail)
-        console.log(userName)
-        console.log(response.data)
+      
 
     } catch(e) {
 

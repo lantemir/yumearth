@@ -926,3 +926,15 @@ def get_order_by_user(request):
         current_page = paginator_obj.get_page(page).object_list
 
         return Response( data={"orders": current_page, "x_total_count": len(orders) }, status=status.HTTP_200_OK)
+
+
+@api_view(http_method_names=["GET"])
+@permission_classes([AllowAny])
+def sitemaps(request):
+    if request.method == 'GET':
+        
+        products = models.Product.objects.all()
+
+        sitemapsid = serializers.SiteMapModelSerializer(instance=products, many=True).data
+    
+    return Response( data={"sitemapsid": sitemapsid }, status=status.HTTP_200_OK)

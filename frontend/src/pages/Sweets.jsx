@@ -63,7 +63,7 @@ function Sweets() {
 
         <bases.Base1>
             
-            <Slider />
+            {/* <Slider /> */}
             <Helmet>
                 <title>Сладости Алматы конфеты от YumEarth доступная цена | Интернет-магазин yumearth.kz</title>
                 <meta name="description" content="В интернет-магазине yumearth представлен широкий выбор сладостей YumEarth! ★ Лучшее качество по самым приятным ценам! Доставка по Алматы. 
@@ -72,7 +72,7 @@ function Sweets() {
                 <link rel="canonical" href="https://yumearth.kz" />
             </Helmet>
             <div className='sweets'>
-                {console.log("render sweets")}
+                
 
                 <h1>cладости</h1>
 

@@ -36,7 +36,7 @@ function Manager() {
   const checkState = (e) => {
     e.preventDefault();
 
-    console.log(orders)
+    console.log(Managerstore)
   }
 
   return (

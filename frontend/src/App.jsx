@@ -33,6 +33,7 @@ import ForgetPassword from './pages/ForgetPassword';
 
 
 
+
 const  App = () => {
   const dispatch = useDispatch();
 
@@ -41,7 +42,7 @@ const  App = () => {
   useEffect( () => {
     if(localStorage.getItem('token')){
       // store.checkAuth()
-      console.log("useEffectAPP");
+     
       checkAuth(dispatch)      
     }    
 
@@ -79,6 +80,7 @@ const  App = () => {
 
     </Routes>
     {/* <button onClick={(e)=>{console.log(store)}}>app</button> */}
+    
    </BrowserRouter>
 
    
