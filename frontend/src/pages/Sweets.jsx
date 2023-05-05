@@ -74,7 +74,7 @@ function Sweets() {
             <div className='sweets'>
                 
 
-                <h1>cладости</h1>
+                <h1>cладости Алматы</h1>
 
                 <ul>
                     

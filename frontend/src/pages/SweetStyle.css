@@ -143,6 +143,14 @@
 .sweetContent p{
   margin: 30px 0;
 }
+.sweetContent span{
+ 
+  display: flex;
+  margin: 30px 0;
+  font-size: 2em;
+  font-weight: bold;
+  color: #4CAF50;
+}
 
 .sweet .bgGreen {
   background-color: #4CAF50;

@@ -14,7 +14,7 @@ export const GET_CATEGORYES_PRODUCTS = "GET_CATEGORYES_PRODUCTS";
 
 let initialState = {
   products: [],
-  pageSize: 6,
+  pageSize: 8,
   totalCount: 0,
   currentPage: 1,
   categoryid: 0,
@@ -87,7 +87,7 @@ export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryi
         params:{currentPage: currentPage, pageSize: pageSize, categoryid: categoryid}
     })
 
-    const responsecat = await axios.get('/api/productcategory');
+    const responsecat = await axios.get('/api/productcategory/');
     dispatch({type:GET_CATEGORYES_PRODUCTS, payload: responsecat.data.category })
 
     dispatch({type: GET_PAGESIZE_PRODUCTS, payload: pageSize})

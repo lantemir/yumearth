@@ -936,5 +936,7 @@ def sitemaps(request):
         products = models.Product.objects.all()
 
         sitemapsid = serializers.SiteMapModelSerializer(instance=products, many=True).data
+
+        print(sitemapsid)
     
         return Response( data={"sitemapsid": sitemapsid }, status=status.HTTP_200_OK)

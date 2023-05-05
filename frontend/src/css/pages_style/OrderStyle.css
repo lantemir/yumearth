@@ -1,12 +1,15 @@
 .order{
-  
+    
     width: 85%;
     margin: auto;
+    margin-bottom: 150px;
+    margin-top: 50px;
 }
 
 .order h3{
     text-align: center;
     padding-top: 20px;
+    margin-bottom: 30px;
 }
 
 .orderForm{

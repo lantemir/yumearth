@@ -57,14 +57,24 @@ function Basket() {
                             return (
                                 <div key={item.id} className='orderLine'>
 
-                                    <div className='orderLineimg'>
-                                    <img src={item.image} />
+                                    <div className='orderLinefirst'>
+                                        <div className='orderLineimg'>
+                                        <img src={item.image} />
+                                        </div>
+                                        <div className='orderLineDescription'>
+                                            <Link to = {`/sweet/${item.id}`}><span>{item.title} </span></Link>        
+
+                                        </div>
+                                    
                                     </div>
-                                    <div className='orderLineDescription'>
-                                        <Link to = {`/sweet/${item.id}`}><span>{item.title} </span></Link>
-                                        <span>{item.price} тг</span>
-                                        <span>{item.count} шт</span>
-                                    </div>
+
+                                   
+                                    <div className='orderLinePriceCount'>
+                                    <span>{item.price} тг </span>
+                                     
+                                     <span>{item.count} шт </span>
+                                     </div>
+                                
                                 </div>
                             )
 

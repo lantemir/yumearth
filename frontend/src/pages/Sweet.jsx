@@ -67,6 +67,9 @@ function Sweet() {
 
         <div className='sweetContent'>
           <h1>{product.title}</h1>
+
+          <span>{product.price} тенге</span>
+          
           <form >
             <label htmlFor="quantity">колличество: </label>
             <input onChange={(e)=>setCountProduct(e.target.value)} type="number" id="quantity" name="quantity" value={countProduct} min="1" max="100" />
