@@ -31,7 +31,7 @@ urlpatterns += [
     path('api/', include('django_app.urls')),
 
     path('api/', include('rest_framework.urls')),
-   # re_path(r'^.*', views.index, name=''), это влияет на отображение статики картинок
+    re_path(r'^.*', views.index, name=''), #это влияет на отображение статики картинок
 ]
 
 
