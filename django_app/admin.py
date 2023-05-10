@@ -16,6 +16,10 @@ class ProductAdmin(admin.ModelAdmin):
         'image',
         'price',
         'description',
+        'instock',
+        'cost_price',
+        'stock_contact',
+
         
     )
     filter_horizontal = ('productCategory',) # только для полей флрмата many to many fields

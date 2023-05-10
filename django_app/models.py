@@ -122,6 +122,35 @@ class Product(models.Model):
         help_text='<small class="text-muted">Активация товара</small><hr><br>',
     )
 
+    instock = models.BooleanField(
+        default=True,
+        verbose_name="Есть в наличии",
+        help_text='<small class="text-muted">наличие товара</small><hr><br>',
+    )     
+
+    cost_price = models.IntegerField(
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,        
+        verbose_name="Себестоимость",
+        help_text='<small class="text-muted">Цена</small><hr><br>',
+    )
+
+     
+
+    stock_contact = models.CharField(
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,   
+        
+        verbose_name="Контакты продовца",
+        help_text='<small class="text-muted">Контакты склада</small><hr><br>',
+        max_length=500,
+    )
+
     class Meta:
         app_label = 'django_app' # для отображения в админке и ещё надо изменить и добавить в apps.py
         # ordering = ('title') # сортировка сначала по title потом по dexcription

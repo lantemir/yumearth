@@ -19,7 +19,10 @@ from django.conf import settings
 from django_app import views
 from django.conf.urls.static import static
 
-urlpatterns = [
+urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
 
@@ -28,10 +31,26 @@ urlpatterns = [
     path('api/', include('django_app.urls')),
 
     path('api/', include('rest_framework.urls')),
-    re_path(r'^.*', views.index, name=''),
+   # re_path(r'^.*', views.index, name=''), это влияет на отображение статики картинок
 ]
 
 
 # Что бы картинки отображались
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+
+
+
+#пример решения проблемы статики
+# URL-адреса для обслуживания статических файлов напрямую веб-сервером
+# urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# # Основные URL-адреса Django
+# urlpatterns += [
+#     path('admin/', admin.site.urls),
+#     path('api/', include('myapp.urls')),
+#     re_path(r'^.*', TemplateView.as_view(template_name='index.html'), name='index'),
+# ]
