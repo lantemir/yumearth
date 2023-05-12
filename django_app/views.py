@@ -25,6 +25,9 @@ from email.mime.text import MIMEText
 # redis
 from . import tasks
 
+from .tasks import mysendmailstandart
+
+
 #paswordGenerate
 import random
 import string
@@ -336,6 +339,7 @@ def orders(request):
 
 
             # print(orders)
+            mysendmailstandart("Номер заказа: " + str(order.pk) , "Новый заказ YumEarth", "temiros@mail.ru")
 
             return Response( data={"orders": products, "orderid": str(order.pk)   }, status=status.HTTP_200_OK)
 
