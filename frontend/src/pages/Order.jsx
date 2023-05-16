@@ -41,7 +41,20 @@ function Order() {
 
     const makeOrder =(e) => {
 
+        // e.preventDefault();
+
+       console.log(payOption)
+
+        if(payOption === undefined){
+            console.log("Выберите способ оплаты");
+            return 
+        }
+
+        
         e.preventDefault();
+        console.log("payOption")
+        console.log(payOption)
+
          newOrder(dispatch, basketProduct , phoneNumber , adres, payOption, deliveryOption, store.isAuth , totalcount);
          clearBasket(dispatch);
          navigate("/orderresult");

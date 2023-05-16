@@ -14,7 +14,7 @@ export const GET_CATEGORYES_PRODUCTS = "GET_CATEGORYES_PRODUCTS";
 
 let initialState = {
   products: [],
-  pageSize: 8,
+  pageSize: 3,
   totalCount: 0,
   currentPage: 1,
   categoryid: 0,
@@ -65,8 +65,9 @@ export const getProductCategory = async(dispatch) => {
 }
 
 export const requestCurrentCategory = (dispatch, categoryid) => {
-
+  // dispatch({type: GET_CURRENTPAGE_PRODUCTS, payload: 1})
   dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
+  
   
 }
 
@@ -98,6 +99,7 @@ export const   getAllProducts = async(dispatch, currentPage, pageSize, categoryi
     
 
     dispatch({type: GET_ALL_PRODUCTS_DATA, payload: response.data.List})  
+    // dispatch({type: GET_CURRENTPAGE_PRODUCTS, payload: currentPage})
 
     // dispatch({type: GET_CATEGORY_PRODUCTS, payload: categoryid})
 

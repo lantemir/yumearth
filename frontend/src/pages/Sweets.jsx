@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet';
 import * as bases from '../components/bases';
 import Products from './Products';
@@ -13,6 +13,8 @@ import "./SweetsStyle.css";
 
 
 function Sweets() {
+   let rerenderTest = false
+
     const dispatch = useDispatch();
     const productStore = useSelector(state => state.GetProductsStore);
 
@@ -33,11 +35,15 @@ function Sweets() {
 
     useEffect(() => {
 
-        getAllProducts(dispatch, currentPage, pageSize, categoryid)
-
-
+        getAllProducts(dispatch, 1, pageSize, categoryid)
+        
+        
 
     }, [categoryid])
+
+    // useEffect(() => {
+    //     console.log("useEffectcurrentPage")
+    // }, [currentPage])
 
 
 
@@ -62,7 +68,7 @@ function Sweets() {
     return (
 
         <bases.Base1>
-            
+            {console.log("render Sweets")}
             {/* <Slider /> */}
             <Helmet>
                 <title>Сладости Алматы конфеты от YumEarth доступная цена | Интернет-магазин yumearth.kz</title>
@@ -98,7 +104,7 @@ function Sweets() {
                                 <Link to={`/sweet/${item.id}`}>
                                     <img src={item.image} />
                                     <h3>{item.title}</h3>
-                                    <p>{item.price}тг</p>
+                                    <p>{item.price} &#8376;</p>
                                 </Link>
                                 
                             </div>
@@ -109,7 +115,7 @@ function Sweets() {
 
                     <div className='paginatorProducts'>
 
-                        <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onPageChanged={onPageChanged} />
+                        <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onPageChanged={onPageChanged}  />
                     </div>
                     <div>
                         {/* <button onClick={testGetProd}>testGetProd</button> */}

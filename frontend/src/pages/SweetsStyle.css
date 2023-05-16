@@ -8,14 +8,28 @@
     color: rgb(121, 217, 121);
 }
 .sweets ul{
-
+    
     display: flex;
-    width: 80%;
-    margin: auto;
+    /* width: 80%;
+    margin: auto; */
+
+
+
+    flex-wrap: wrap;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
 }
 .sweets ul li{
+    
     margin-right: 20px;
     cursor: pointer;
+
+    margin: 5px;
+        padding: 10px;
+       
+        cursor: pointer;
     
   
 }
@@ -23,3 +37,24 @@
 .sweets a {
     color: green;
   }
+
+  .sweets p {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+
+
+  @media only screen and (max-width: 767px) {
+    /* Adjust the layout for small screens */
+    .sweets ul {
+
+        justify-content: space-around;
+    }
+    .sweets ul li {
+       
+        width: 23%;
+        text-align: center;
+    }
+}

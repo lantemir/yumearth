@@ -67,10 +67,11 @@ export function Home() {
 
 
   return (
+ 
     <bases.Base1>
       <Slider />
       <div className='home'>
-      <h1>сладости YumEarth Алматы</h1>
+      <h1>сладости Алматы YumEarth</h1>
       <div className='homelink'>
         <Link to={`/sweets/`}> все сладости</Link>
       </div>
@@ -88,9 +89,7 @@ export function Home() {
         <link rel="canonical" href="https://yumearth.kz" />
       </Helmet>
         
-        {/* <button onClick={getAllsmsRed} className='btn btn-lg btn-outline-danger'>Ok</button>
-
-        <button onClick={checkStore} >get From State</button> */}
+        
           <img src={picc}/>
           
           <h2>О леденцах YumEarth</h2>
@@ -102,7 +101,7 @@ export function Home() {
         </div>
 
       
-    </bases.Base1>
+      </bases.Base1> 
 
   )
 }
