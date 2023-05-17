@@ -4,7 +4,7 @@ import cn from "classnames";  // npm install classnames //  classNames= {cn(styl
                                   // classNames= {cn(styles.paginator, [styles.selectedPages]: true)}
 
 
-let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize = 2}) => {
+let Paginator = ({totalCount, pageSize, currentPage, onPageChanged, portionSize = 5}) => {
 
     
 
